@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biranchi Narayan Sahu | Senior Java Backend & Agentic AI Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #f59e0b;
+            --gold-light: #fcd34d;
+            --crimson: #7f1d1d;
+            --crimson-dark: #450a0a;
+            --bg-dark: #090d16;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(245, 158, 11, 0.06), transparent 35%),
+                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 35%);
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Velvet Stage Curtains */
+        .curtain-container {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            pointer-events: none;
+            display: flex;
+        }
+        .curtain-left, .curtain-right {
+            width: 50%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                #450a0a 0px,
+                #7f1d1d 25px,
+                #991b1b 50px,
+                #450a0a 75px
+            );
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+            position: relative;
+        }
+        .curtain-left { border-right: 4px solid var(--gold); transform: translateX(-100%); }
+        .curtain-right { border-left: 4px solid var(--gold); transform: translateX(100%); }
+        .curtains-closed .curtain-left { transform: translateX(0%); }
+        .curtains-closed .curtain-right { transform: translateX(0%); }
+
+        /* Top Valance */
+        .stage-valance {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 18px;
+            background: linear-gradient(180deg, #450a0a, #7f1d1d);
+            border-bottom: 2px solid var(--gold);
+            z-index: 55;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+
+        /* Elf Guide Animations */
+        @keyframes floatElf {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes earWiggleLeft {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-6deg); }
+        }
+        @keyframes earWiggleRight {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(6deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.12); }
+        }
+        .elf-float { animation: floatElf 3.5s ease-in-out infinite; }
+        .ear-left { transform-origin: 75px 75px; animation: earWiggleLeft 3s ease-in-out infinite; }
+        .ear-right { transform-origin: 125px 75px; animation: earWiggleRight 3s ease-in-out infinite; }
+        .badge-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+
+        /* Talking mouth state */
+        .talking #elf-mouth {
+            animation: talkMouth 0.25s infinite alternate;
+        }
+        @keyframes talkMouth {
+            from { ry: 2; }
+            to { ry: 6; }
+        }
+
+        /* Glass Cards */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+        }
+        .gold-border {
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* Scene Transition */
+        .scene-fade {
+            animation: sceneAppear 0.55s ease-out forwards;
+        }
+        @keyframes sceneAppear {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Print Styles for Executive Resume Modal */
+        @media print {
+            body * { visibility: hidden; }
+            #resume-modal, #resume-modal * { visibility: visible; }
+            #resume-modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- Top Stage Valance -->
+    <div class="stage-valance"></div>
+
+    <!-- Velvet Curtain Overlay -->
+    <div id="curtain-overlay" class="curtain-container curtains-closed">
+        <div class="curtain-left flex items-center justify-end pr-8">
+            <div class="text-amber-400/30 font-cinzel text-4xl tracking-widest hidden md:block">ACT</div>
+        </div>
+        <div class="curtain-right flex items-center justify-start pl-8">
+            <div class="text-amber-400/30 font-cinzel text-4xl tracking-widest hidden md:block">STAGE</div>
+        </div>
+    </div>
+
+    <!-- Top Navigation & Cinema Controls -->
+    <header class="pt-7 pb-3 px-4 md:px-8 max-w-7xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 z-40">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-cinzel font-bold text-slate-950 text-lg shadow-lg shadow-amber-500/20">
+                BS
+            </div>
+            <div>
+                <h1 class="font-cinzel font-bold text-base md:text-lg tracking-wide text-amber-400">BIRANCHI NARAYAN SAHU</h1>
+                <p class="text-xs text-slate-400">Senior Java Backend & Agentic AI Engineer • 7+ Years</p>
+            </div>
+        </div>
+
+        <!-- Cinema Playback Controls -->
+        <div class="flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-full shadow-lg">
+            <button id="btn-prev" onclick="prevScene()" class="p-1.5 text-slate-400 hover:text-amber-400 transition" title="Previous Act">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button id="btn-play" onclick="toggleAutoPlay()" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 text-xs font-semibold transition">
+                <span id="play-icon">▶</span> <span id="play-text">Auto-Play</span>
+            </button>
+            <button id="btn-next" onclick="nextScene()" class="p-1.5 text-slate-400 hover:text-amber-400 transition" title="Next Act">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <div class="h-4 w-[1px] bg-slate-700 mx-1"></div>
+            <button id="btn-voice" onclick="toggleVoice()" class="p-1.5 text-slate-400 hover:text-emerald-400 transition" title="Toggle Voice Narration">
+                🔇
+            </button>
+            <button onclick="openResumeModal()" class="ml-1 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow">
+                📄 PDF Resume
+            </button>
+        </div>
+    </header>
+
+    <!-- Main 2-Column Stage Container (Zero Overlap Architecture) -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-4 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start z-30">
+
+        <!-- LEFT COLUMN: Dedicated House-Elf Stage Guide (4 Cols) -->
+        <aside class="lg:col-span-4 glass-panel gold-border rounded-2xl p-5 flex flex-col items-center text-center sticky top-8">
+            <div class="w-full flex items-center justify-between text-xs text-amber-400/80 font-mono mb-2">
+                <span>GUIDE: DOBBY-DEV</span>
+                <span id="act-badge" class="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30">ACT I / VI</span>
+            </div>
+
+            <!-- Custom High-Detail House-Elf SVG Character -->
+            <div id="elf-avatar" class="elf-float my-2 relative">
+                <svg width="175" height="175" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Ambient Glow -->
+                    <circle cx="100" cy="100" r="78" fill="url(#elfAura)" opacity="0.45"/>
+                    <defs>
+                        <radialGradient id="elfAura" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.5"/>
+                            <stop offset="100%" stop-color="#090d16" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+
+                    <!-- Large Pointed Floppy Bat-Ears -->
+                    <g class="ear-left">
+                        <path d="M72 72 Q22 52 12 78 Q38 92 70 86 Z" fill="#d6b49c" stroke="#8c6852" stroke-width="2"/>
+                        <path d="M68 76 Q32 64 24 77 Q44 85 67 82 Z" fill="#b88c72"/>
+                    </g>
+                    <g class="ear-right">
+                        <path d="M128 72 Q178 52 188 78 Q162 92 130 86 Z" fill="#d6b49c" stroke="#8c6852" stroke-width="2"/>
+                        <path d="M132 76 Q168 64 176 77 Q156 85 133 82 Z" fill="#b88c72"/>
+                    </g>
+
+                    <!-- Classic Pillowcase / Linen Tunic -->
+                    <path d="M64 115 L52 178 L148 178 L136 115 Q100 126 64 115 Z" fill="#cbb59d" stroke="#78634d" stroke-width="2"/>
+                    <path d="M74 118 L70 178 M126 118 L130 178" stroke="#9e876f" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <!-- Knotted Shoulder Tie -->
+                    <circle cx="135" cy="117" r="6" fill="#b39b82" stroke="#78634d" stroke-width="1.5"/>
+
+                    <!-- Head -->
+                    <ellipse cx="100" cy="78" rx="31" ry="34" fill="#e0bfa8" stroke="#8c6852" stroke-width="2"/>
+                    <!-- Forehead Wrinkles -->
+                    <path d="M86 55 Q100 52 114 55" fill="none" stroke="#a68068" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M89 60 Q100 58 111 60" fill="none" stroke="#a68068" stroke-width="1.2" stroke-linecap="round"/>
+
+                    <!-- Large Expressive Tennis-Ball Green Eyes -->
+                    <ellipse cx="86" cy="76" rx="9.5" ry="10.5" fill="#ffffff" stroke="#5c4232" stroke-width="1.5"/>
+                    <circle cx="87" cy="76" r="6" fill="#16a34a"/>
+                    <circle cx="87" cy="76" r="2.8" fill="#052e16"/>
+                    <circle cx="89" cy="74" r="1.8" fill="#ffffff"/>
+
+                    <ellipse cx="114" cy="76" rx="9.5" ry="10.5" fill="#ffffff" stroke="#5c4232" stroke-width="1.5"/>
+                    <circle cx="113" cy="76" r="6" fill="#16a34a"/>
+                    <circle cx="113" cy="76" r="2.8" fill="#052e16"/>
+                    <circle cx="115" cy="74" r="1.8" fill="#ffffff"/>
+
+                    <!-- Long Pointed Nose -->
+                    <path d="M100 77 L95 92 Q100 95 105 91 Z" fill="#cfa68c" stroke="#8c6852" stroke-width="1.5"/>
+
+                    <!-- Expressive Mouth -->
+                    <ellipse id="elf-mouth" cx="100" cy="101" rx="7" ry="2.2" fill="#7c2d12"/>
+
+                    <!-- Hand Holding Golden Sock / Code Badge -->
+                    <circle cx="146" cy="145" r="8" fill="#e0bfa8" stroke="#8c6852" stroke-width="1.5"/>
+                    <g class="badge-glow">
+                        <path d="M148 124 L162 124 L162 142 Q162 150 152 150 L144 150 Q140 144 148 140 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.5"/>
+                        <text x="150" y="137" font-size="8" font-weight="bold" fill="#450a0a" font-family="monospace">&lt;/&gt;</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Live Typewriter Dialogue Box -->
+            <div class="w-full bg-slate-950/90 border border-amber-500/30 rounded-xl p-4 text-left relative shadow-inner min-h-[125px]">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-amber-400 mb-1 flex items-center justify-between">
+                    <span>● Live Commentary</span>
+                    <button onclick="replayDialogue()" class="text-slate-400 hover:text-amber-300 text-xs" title="Replay Speech">↻</button>
+                </div>
+                <p id="elf-speech" class="text-sm text-slate-200 leading-relaxed"></p>
+            </div>
+
+            <!-- Photo Uploader Trigger -->
+            <div class="w-full mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                <span class="text-slate-400">Profile Portrait:</span>
+                <label class="cursor-pointer px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 font-medium transition">
+                    📷 Upload Photo
+                    <input type="file" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden">
+                </label>
+            </div>
+        </aside>
+
+        <!-- RIGHT COLUMN: Main Technical Stage Content (8 Cols) -->
+        <section id="stage-content" class="lg:col-span-8 glass-panel rounded-2xl p-6 md:p-8 min-h-[510px] flex flex-col justify-between scene-fade">
+            <!-- Dynamic Content Rendered via JS -->
+        </section>
+
+    </main>
+
+    <!-- Bottom Film-Reel Storyboard Scrubber -->
+    <footer class="py-4 px-4 md:px-8 max-w-7xl w-full mx-auto z-40">
+        <div class="glass-panel rounded-xl p-2.5 flex items-center justify-between gap-2 overflow-x-auto">
+            <button onclick="goToScene(0)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="0">
+                <div class="text-[10px] font-mono text-amber-400">ACT I</div>
+                <div class="text-xs font-semibold truncate">Executive Profile</div>
+            </button>
+            <button onclick="goToScene(1)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="1">
+                <div class="text-[10px] font-mono text-amber-400">ACT II</div>
+                <div class="text-xs font-semibold truncate">Santander UK Flagship</div>
+            </button>
+            <button onclick="goToScene(2)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="2">
+                <div class="text-[10px] font-mono text-amber-400">ACT III</div>
+                <div class="text-xs font-semibold truncate">Global Clients & 50M+ Data</div>
+            </button>
+            <button onclick="goToScene(3)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="3">
+                <div class="text-[10px] font-mono text-amber-400">ACT IV</div>
+                <div class="text-xs font-semibold truncate">Agentic AI & DevEx Lab</div>
+            </button>
+            <button onclick="goToScene(4)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="4">
+                <div class="text-[10px] font-mono text-amber-400">ACT V</div>
+                <div class="text-xs font-semibold truncate">Tech Stack & Credentials</div>
+            </button>
+            <button onclick="goToScene(5)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="5">
+                <div class="text-[10px] font-mono text-amber-400">ACT VI</div>
+                <div class="text-xs font-semibold truncate">LinkedIn Bio & PDF</div>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Printable Executive Resume Modal -->
+    <div id="resume-modal" class="fixed inset-0 bg-black/85 z-50 hidden overflow-y-auto p-4 md:p-8">
+        <div class="max-w-4xl mx-auto bg-white text-slate-900 rounded-xl shadow-2xl overflow-hidden">
+            <!-- Modal Top Action Bar -->
+            <div class="no-print bg-slate-900 text-white px-6 py-3 flex items-center justify-between">
+                <span class="text-sm font-semibold text-amber-400">Executive Director's Cut — Printable Resume</span>
+                <div class="flex items-center gap-3">
+                    <button onclick="window.print()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-semibold transition">
+                        🖨️ Print / Save as PDF
+                    </button>
+                    <button onclick="closeResumeModal()" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-semibold transition">
+                        ✕ Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resume Document Body -->
+            <div class="p-8 md:p-10 space-y-6 text-sm leading-relaxed">
+                <div class="border-b-2 border-blue-800 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">BIRANCHI NARAYAN SAHU</h1>
+                        <p class="text-blue-700 font-semibold">Senior Java Backend Engineer & Agentic AI Specialist (7+ Years Experience)</p>
+                        <p class="text-xs text-slate-600 mt-1">Bengaluru, India • Global Delivery: UK, Germany, USA, Canada, Hong Kong</p>
+                    </div>
+                    <img id="modal-avatar-img" src="" alt="Profile" class="hidden w-16 h-16 rounded-full object-cover border-2 border-blue-700">
+                </div>
+
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Executive Summary</h2>
+                    <p class="text-slate-700">Results-driven Senior Java Backend Engineer with 7+ years of enterprise experience architecting high-throughput distributed microservices, cloud-native data pipelines, and large-scale banking migrations. Currently serving as Technical Lead for Santander Bank (UK), spearheading core banking module migrations and pioneering autonomous Agentic AI developer tooling.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Core Technical Competencies</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-700">
+                        <div><strong>Backend & Core:</strong> Java 17/21, Spring Boot, Spring Cloud, Microservices, REST/GraphQL, Hibernate/JPA</div>
+                        <div><strong>Messaging & Data:</strong> Apache Kafka, PostgreSQL, Oracle, MongoDB, Redis, Apache Spark</div>
+                        <div><strong>Cloud & DevOps:</strong> AWS (EKS, ECS, S3, Lambda), Docker, Kubernetes, Jenkins, Maven, Gradle, SonarQube</div>
+                        <div><strong>GenAI & Agentic DevEx:</strong> Devin AI, Multi-LLM (GPT-4o, Claude 3.5 Sonnet/Opus, Argon), MCP, Playwright</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Key Enterprise Experience & Flagship Deliverables</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between font-bold text-slate-900">
+                                <span>Technical Lead — Santander Bank (UK) (via Tech Mahindra)</span>
+                                <span class="text-xs text-slate-500">Current (1.5+ Years)</span>
+                            </div>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1 mt-1">
+                                <li>Led end-to-end backend architecture and migration of <strong>7 core banking modules</strong> from TSB to Santander UK with zero critical production downtime.</li>
+                                <li>Architected and built a high-throughput <strong>Consumer Merge Microservice Engine</strong> from scratch, reconciling complex relational schemas across <strong>13+ database tables</strong>.</li>
+                                <li>Directed requirements gathering, peer code reviews, and mentored cross-functional engineering squads.</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between font-bold text-slate-900">
+                                <span>Senior Backend Developer — Global Enterprise Accounts (Cognizant & CGI)</span>
+                                <span class="text-xs text-slate-500">5.5+ Years</span>
+                            </div>
+                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1 mt-1">
+                                <li><strong>Daimler Truck & Mercedes-Benz:</strong> Engineered resilient ETL and Java microservices migrating <strong>50M+ enterprise vehicle & telemetry records</strong>.</li>
+                                <li><strong>BNSF Railway & Network Rail:</strong> Built real-time rail logistics and scheduling APIs handling mission-critical freight telemetry.</li>
+                                <li><strong>HSBC (PayOS), The Hartford & Bell Canada:</strong> Developed secure payment settlement microservices, insurance policy engines, and telecom billing integrations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">GenAI, Agentic AI & Custom Enterprise Tooling</h2>
+                    <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1">
+                        <li><strong>Autonomous Sonar Remediation Agent:</strong> Built an AI workflow integrating Sonar agents with Maven/Gradle to auto-create feature branches, resolve code smells/vulnerabilities, and enforce <strong>&gt;95% unit test coverage</strong>.</li>
+                        <li><strong>Knowledge-Hub Log Analysis & Debug Agent:</strong> Created a historical remediation Knowledge Hub enabling autonomous root-cause analysis on runtime stack traces.</li>
+                        <li><strong>Model Context Protocol (MCP) Integration:</strong> Connected Confluence, Jira, and Playwright to automate customer journey verification and auto-generate structured Jira bug tickets.</li>
+                        <li><strong>Santander Framework Scaffolding Plugins:</strong> Developed CLI/IDE plugins generating standardized, compliance-ready project skeletons for Java, Apache Spark, Mainframe modernization, and Python.</li>
+                    </ul>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-200 text-xs">
+                    <div>
+                        <strong class="text-blue-800 uppercase">Certifications & Training:</strong>
+                        <p class="text-slate-700 mt-1">AI Whitebelt • Cloud Development • GitHub Copilot Mastery • Agentic AI Architecture • Enterprise Prompt Engineering</p>
+                    </div>
+                    <div>
+                        <strong class="text-blue-800 uppercase">Education:</strong>
+                        <p class="text-slate-700 mt-1">Master of Computer Applications (MCA) — OUTR / CET<br>B.Sc. (Honours) in Computer Science</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Portfolio Data & 6-Act Script ---
+        const scenes = [
+            {
+                act: "ACT I / VI",
+                title: "The Architect Behind Enterprise Scale",
+                subtitle: "7+ Years of Mission-Critical Java Backend Engineering & Agentic AI Innovation",
+                dialogue: "Welcome! I am Dobby-Dev, your stage guide. Today I present Biranchi Narayan Sahu — a Senior Java Backend Engineer with over 7 years of global delivery across the UK, Germany, USA, Canada, and Hong Kong.",
+                render: () => `
+                    <div class="space-y-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 pb-5 border-b border-slate-800">
+                            <div id="hero-photo-box" class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500/20 to-blue-600/20 border-2 border-amber-400/50 flex items-center justify-center overflow-hidden shrink-0 shadow-lg">
+                                <span class="font-cinzel font-bold text-2xl text-amber-400">BNS</span>
+                            </div>
+                            <div>
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Available for Senior / Lead Roles</span>
+                                <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1.5">Biranchi Narayan Sahu</h2>
+                                <p class="text-slate-300 text-sm mt-1">Technical Lead @ Santander Bank (UK) • Ex-Cognizant • Ex-CGI</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="text-2xl font-bold text-amber-400">7+ Yrs</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Enterprise Backend</div>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="text-2xl font-bold text-blue-400">7 Modules</div>
+                                <div class="text-xs text-slate-400 mt-0.5">TSB → Santander UK</div>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="text-2xl font-bold text-emerald-400">50M+</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Records Migrated</div>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="text-2xl font-bold text-purple-400">&gt;95%</div>
+                                <div class="text-xs text-slate-400 mt-0.5">AI Sonar Coverage</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-4 space-y-2">
+                            <h3 class="text-xs font-mono uppercase tracking-wider text-amber-400">Global Delivery Footprint</h3>
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇬🇧 United Kingdom (Santander, HSBC, Network Rail)</span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇩🇪 Germany (Daimler Truck, Mercedes-Benz)</span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇺🇸 USA (BNSF Railway, The Hartford)</span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇨🇦 Canada (Bell Canada)</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                act: "ACT II / VI",
+                title: "Flagship Engagement: Santander Bank (UK)",
+                subtitle: "Technical Lead • Core Banking Migration & 13+ Table Consumer Merge Engine",
+                dialogue: "In Act Two, look at Biranchi's current leadership at Santander Bank UK. He spearheaded the migration of 7 core banking modules from TSB and engineered a 13-table consumer merge service completely from scratch!",
+                render: () => `
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <div>
+                                <span class="text-xs font-mono text-red-400 uppercase">Current Role • 1.5+ Years</span>
+                                <h2 class="font-cinzel text-2xl font-bold text-white">Santander Bank (UK)</h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-lg bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-semibold">Tech Lead</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-900/90 border border-amber-500/25 rounded-xl p-4 space-y-2">
+                                <div class="text-amber-400 font-bold text-sm">01. 7-Module TSB Core Banking Migration</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Led the end-to-end backend migration of <strong>7 mission-critical banking modules</strong> from TSB into Santander UK's ecosystem, ensuring zero data corruption and strict regulatory compliance.
+                                </p>
+                            </div>
+                            <div class="bg-slate-900/90 border border-blue-500/25 rounded-xl p-4 space-y-2">
+                                <div class="text-blue-400 font-bold text-sm">02. 13+ Table Consumer Merge Engine</div>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Architected and built a high-throughput <strong>Consumer Merge Microservice</strong> from scratch, reconciling complex customer state across <strong>13+ relational tables</strong> in real time.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 space-y-2">
+                            <h3 class="text-xs font-mono uppercase text-amber-400">Technical Leadership & Governance</h3>
+                            <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4">
+                                <li>Owned functional requirements gathering directly with UK banking stakeholders and solution architects.</li>
+                                <li>Enforced strict code quality gates, conducted peer code reviews, and mentored backend engineering squads.</li>
+                                <li>Integrated automated CI/CD pipelines with Java 17/21, Spring Boot, Apache Kafka, and AWS cloud infrastructure.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                act: "ACT III / VI",
+                title: "Global Enterprise Portfolio",
+                subtitle: "Click any enterprise client below to inspect architectural scale & impact",
+                dialogue: "Before Santander, Biranchi delivered massive data and microservice platforms for Daimler Truck, BNSF Railway, HSBC, Network Rail, and The Hartford. Click any client card to inspect the details!",
+                render: () => `
+                    <div class="space-y-4">
+                        <div class="border-b border-slate-800 pb-3">
+                            <h2 class="font-cinzel text-2xl font-bold text-white">Enterprise Track Record</h2>
+                            <p class="text-xs text-slate-400">5.5+ Years across Cognizant & CGI delivering high-volume distributed systems</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="client-grid">
+                            <button onclick="selectClient(0)" class="client-btn p-3 rounded-xl bg-amber-500/15 border border-amber-500/50 text-left transition">
+                                <div class="text-xs font-bold text-amber-300">Daimler Truck</div>
+                                <div class="text-[11px] text-slate-400">50M+ Records ETL</div>
+                            </button>
+                            <button onclick="selectClient(1)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
+                                <div class="text-xs font-bold text-white">BNSF Railway</div>
+                                <div class="text-[11px] text-slate-400">Freight Logistics APIs</div>
+                            </button>
+                            <button onclick="selectClient(2)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
+                                <div class="text-xs font-bold text-white">HSBC (PayOS)</div>
+                                <div class="text-[11px] text-slate-400">Global Payments</div>
+                            </button>
+                            <button onclick="selectClient(3)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
+                                <div class="text-xs font-bold text-white">Mercedes-Benz</div>
+                                <div class="text-[11px] text-slate-400">Connected Mobility</div>
+                            </button>
+                            <button onclick="selectClient(4)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
+                                <div class="text-xs font-bold text-white">Network Rail</div>
+                                <div class="text-[11px] text-slate-400">UK Rail Infrastructure</div>
+                            </button>
+                            <button onclick="selectClient(5)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
+                                <div class="text-xs font-bold text-white">The Hartford & Bell</div>
+                                <div class="text-[11px] text-slate-400">Insurance & Telecom</div>
+                            </button>
+                        </div>
+
+                        <div id="client-detail-box" class="bg-slate-950/90 border border-slate-800 rounded-xl p-4 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-amber-400 text-base">Daimler Truck (Germany)</h3>
+                                <span class="text-xs font-mono text-slate-400">Automotive & Fleet IoT</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Designed and executed fault-tolerant Java Spring Boot batch & streaming pipelines to migrate <strong>50M+ vehicle, warranty, and telemetry records</strong> across legacy and cloud databases with automated reconciliation checks.
+                            </p>
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Java 17</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Spring Batch</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Apache Kafka</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">PostgreSQL</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                act: "ACT IV / VI",
+                title: "GenAI & Agentic AI Engineering Lab",
+                subtitle: "Devin AI, Multi-LLM Orchestration, Autonomous Sonar Remediation & Custom MCP",
+                dialogue: "Behold Biranchi's Agentic AI workshop! He built an autonomous Sonar agent achieving over 95% coverage, a Knowledge-Hub log debugger, an MCP bridge linking Confluence, Jira, and Playwright, plus Santander project skeleton plugins!",
+                render: () => `
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                            <div>
+                                <h2 class="font-cinzel text-xl md:text-2xl font-bold text-white">Agentic AI & DevEx Automation</h2>
+                                <p class="text-xs text-slate-400">Powered by Devin AI, GPT-4o, Claude 3.5 Sonnet, Opus & Argon</p>
+                            </div>
+                            <button onclick="runSonarDemo()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition shadow">
+                                ▶ Simulate Sonar Agent
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="font-bold text-amber-400 mb-1">1. Autonomous Sonar Remediation Agent</div>
+                                <p class="text-slate-300">Connects Sonar agents with Maven/Gradle to auto-create Git branches, fix bugs/vulnerabilities, and achieve <strong>&gt;95% code coverage</strong>.</p>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="font-bold text-blue-400 mb-1">2. Debug & Log Analysis Knowledge Hub</div>
+                                <p class="text-slate-300">Autonomous log triage engine backed by a structured Knowledge Hub containing historical developer remediation logic.</p>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="font-bold text-purple-400 mb-1">3. Custom MCP (Confluence + Jira + Playwright)</div>
+                                <p class="text-slate-300">Model Context Protocol server automating E2E customer journey tests and auto-creating detailed Jira tickets upon failure.</p>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
+                                <div class="font-bold text-emerald-400 mb-1">4. Santander Skeleton Scaffolding Plugins</div>
+                                <p class="text-slate-300">Custom generator plugins producing Santander-compliant project skeletons for <strong>Java, Spark, Mainframe & Python</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Live Terminal Output Box -->
+                        <div id="ai-terminal" class="bg-black/90 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-400 h-24 overflow-y-auto">
+                            <div>$ devin-agent --status ready --models "gpt-4o,claude-3.5-sonnet,opus,argon"</div>
+                            <div class="text-slate-400">Click "Simulate Sonar Agent" above to watch autonomous branch &gt;95% coverage remediation...</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                act: "ACT V / VI",
+                title: "Technical Arsenal, Certifications & Education",
+                subtitle: "Enterprise Java Ecosystem, Cloud Infrastructure & Accredited AI Credentials",
+                dialogue: "In Act Five, review Biranchi's core engineering stack alongside his certified training in AI Whitebelt, Cloud Development, GitHub Copilot, Agentic AI, and Prompt Engineering.",
+                render: () => `
+                    <div class="space-y-4">
+                        <div class="border-b border-slate-800 pb-3">
+                            <h2 class="font-cinzel text-2xl font-bold text-white">Tech Stack & Credentials</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-2.5">
+                                <h3 class="font-mono uppercase text-amber-400 font-semibold">Core Engineering Stack</h3>
+                                <div><strong class="text-slate-200">Languages & Core:</strong> <span class="text-slate-400">Java 17/21, Python, SQL, Apache Spark</span></div>
+                                <div><strong class="text-slate-200">Frameworks:</strong> <span class="text-slate-400">Spring Boot, Spring Batch, Spring Security, Hibernate</span></div>
+                                <div><strong class="text-slate-200">Streaming & DB:</strong> <span class="text-slate-400">Apache Kafka, PostgreSQL, Oracle, MongoDB, Redis</span></div>
+                                <div><strong class="text-slate-200">Cloud & DevOps:</strong> <span class="text-slate-400">AWS (EKS, ECS, Lambda, S3), Docker, Kubernetes, Maven, Gradle</span></div>
+                            </div>
+
+                            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-2.5">
+                                <h3 class="font-mono uppercase text-blue-400 font-semibold">AI & Cloud Certifications</h3>
+                                <ul class="space-y-1.5 text-slate-300">
+                                    <li>✅ <strong>AI Whitebelt Certification</strong> (Enterprise AI Foundations)</li>
+                                    <li>✅ <strong>Agentic AI Architecture</strong> & Autonomous Workflows</li>
+                                    <li>✅ <strong>GitHub Copilot</strong> & AI-Assisted Engineering</li>
+                                    <li>✅ <strong>Enterprise Prompt Engineering</strong> & LLM Orchestration</li>
+                                    <li>✅ <strong>Cloud Development</strong> Certification</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                            <div>
+                                <div class="font-bold text-white">Master of Computer Applications (MCA)</div>
+                                <div class="text-slate-400">Odisha University of Technology and Research (OUTR / CET)</div>
+                            </div>
+                            <div class="sm:text-right">
+                                <div class="font-bold text-white">B.Sc. (Honours) in Computer Science</div>
+                                <div class="text-slate-400">First Class Honours</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                act: "ACT VI / VI",
+                title: "Finale: LinkedIn Bio & Executive PDF Resume",
+                subtitle: "Ready to share with recruiters, hiring directors, and your LinkedIn network",
+                dialogue: "Our presentation concludes! Copy the ready-made LinkedIn bio snippet below or open the Director's Cut Printable PDF Resume for immediate download. Thank you for watching!",
+                render: () => `
+                    <div class="space-y-5">
+                        <div class="border-b border-slate-800 pb-3">
+                            <h2 class="font-cinzel text-2xl font-bold text-white">Connect & Download Resume</h2>
+                            <p class="text-xs text-slate-400">Share this interactive portfolio in your LinkedIn bio or download the executive PDF</p>
+                        </div>
+
+                        <div class="bg-slate-950 border border-amber-500/30 rounded-xl p-4 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono text-amber-400 uppercase">Ready-to-Use LinkedIn Headline & Bio Snippet</span>
+                                <button onclick="copyLinkedInBio()" id="copy-btn" class="px-3 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition">
+                                    📋 Copy Bio Text
+                                </button>
+                            </div>
+                            <p id="linkedin-bio-text" class="text-xs text-slate-300 bg-slate-900 p-3 rounded-lg border border-slate-800 leading-relaxed">
+                                Senior Java Backend Engineer & Tech Lead (7+ Yrs) | Santander Bank UK | Microservices, Kafka, AWS & Agentic AI DevEx (Devin AI, MCP, Autonomous Sonar Remediation) | Explore my interactive portfolio & resume journey:
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <button onclick="openResumeModal()" class="p-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition">
+                                📄 Open Printable PDF Resume
+                            </button>
+                            <button onclick="goToScene(0)" class="p-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-semibold text-sm flex items-center justify-center gap-2 border border-slate-700 transition">
+                                ↻ Replay Presentation from Act I
+                            </button>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        const clientDetails = [
+            {
+                name: "Daimler Truck (Germany)",
+                domain: "Automotive & Fleet IoT",
+                desc: "Designed and executed fault-tolerant Java Spring Boot batch & streaming pipelines to migrate <strong>50M+ vehicle, warranty, and telemetry records</strong> across legacy and cloud databases with automated reconciliation checks.",
+                tags: ["Java 17", "Spring Batch", "Apache Kafka", "PostgreSQL"]
+            },
+            {
+                name: "BNSF Railway (USA)",
+                domain: "Rail Freight & Logistics",
+                desc: "Engineered real-time logistics microservices and telemetry ingestion APIs supporting mission-critical North American freight train scheduling and dispatch tracking.",
+                tags: ["Java", "Spring Boot", "REST APIs", "Oracle DB"]
+            },
+            {
+                name: "HSBC — PayOS (UK / Hong Kong)",
+                domain: "Global Banking & Payments",
+                desc: "Developed high-availability payment orchestration microservices processing cross-border settlement workflows with strict idempotency and audit logging.",
+                tags: ["Java", "Microservices", "Kafka", "Docker"]
+            },
+            {
+                name: "Mercedes-Benz (Germany)",
+                domain: "Connected Mobility Services",
+                desc: "Built scalable backend APIs powering connected vehicle parking and digital driver services across European markets.",
+                tags: ["Java", "Spring Cloud", "AWS", "REST"]
+            },
+            {
+                name: "Network Rail (UK)",
+                domain: "National Rail Infrastructure",
+                desc: "Delivered backend data integration services for UK railway asset management and operational timetable analytics.",
+                tags: ["Java", "Spring Boot", "SQL", "CI/CD"]
+            },
+            {
+                name: "The Hartford & Bell Canada",
+                domain: "Insurance & Telecommunications",
+                desc: "Built policy administration microservices for The Hartford (USA) and high-volume customer billing APIs for Bell Canada.",
+                tags: ["Java", "Hibernate", "SOAP/REST", "Linux"]
+            }
+        ];
+
+        let currentScene = 0;
+        let isPlaying = false;
+        let autoPlayTimer = null;
+        let typewriterTimer = null;
+        let voiceEnabled = false;
+        let savedPhotoData = localStorage.getItem('biranchi_photo') || null;
+
+        // Initialize Stage
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('curtain-overlay').classList.remove('curtains-closed');
+                renderScene(0, false);
+            }, 450);
+        });
+
+        function goToScene(index) {
+            if (index === currentScene) return;
+            const curtains = document.getElementById('curtain-overlay');
+            curtains.classList.add('curtains-closed');
+            playCurtainChime();
+
+            setTimeout(() => {
+                renderScene(index, true);
+                curtains.classList.remove('curtains-closed');
+            }, 650);
+        }
+
+        function nextScene() {
+            const next = (currentScene + 1) % scenes.length;
+            goToScene(next);
+        }
+
+        function prevScene() {
+            const prev = (currentScene - 1 + scenes.length) % scenes.length;
+            goToScene(prev);
+        }
+
+        function renderScene(index, speak) {
+            currentScene = index;
+            const scene = scenes[index];
+            document.getElementById('act-badge').textContent = scene.act;
+
+            const stage = document.getElementById('stage-content');
+            stage.classList.remove('scene-fade');
+            void stage.offsetWidth; // trigger reflow
+            stage.classList.add('scene-fade');
+            stage.innerHTML = scene.render();
+
+            // Update Tabs
+            document.querySelectorAll('.scene-tab').forEach((tab, idx) => {
+                if (idx === index) {
+                    tab.classList.add('bg-amber-500/15', 'border-amber-500/40');
+                } else {
+                    tab.classList.remove('bg-amber-500/15', 'border-amber-500/40');
+                }
+            });
+
+            applySavedPhoto();
+            typeDialogue(scene.dialogue, speak);
+        }
+
+        function typeDialogue(text, speak) {
+            clearInterval(typewriterTimer);
+            const speechEl = document.getElementById('elf-speech');
+            const avatarEl = document.getElementById('elf-avatar');
+            speechEl.textContent = '';
+            avatarEl.classList.add('talking');
+
+            let i = 0;
+            typewriterTimer = setInterval(() => {
+                if (i < text.length) {
+                    speechEl.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typewriterTimer);
+                    avatarEl.classList.remove('talking');
+                }
+            }, 22);
+
+            if (voiceEnabled && speak && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.rate = 1.05;
+                utter.pitch = 1.15;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function replayDialogue() {
+            typeDialogue(scenes[currentScene].dialogue, true);
+        }
+
+        function toggleAutoPlay() {
+            isPlaying = !isPlaying;
+            const icon = document.getElementById('play-icon');
+            const label = document.getElementById('play-text');
+            if (isPlaying) {
+                icon.textContent = '⏸';
+                label.textContent = 'Playing';
+                autoPlayTimer = setInterval(() => {
+                    nextScene();
+                }, 8500);
+            } else {
+                icon.textContent = '▶';
+                label.textContent = 'Auto-Play';
+                clearInterval(autoPlayTimer);
+            }
+        }
+
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            const btn = document.getElementById('btn-voice');
+            btn.textContent = voiceEnabled ? '🔊' : '🔇';
+            if (!voiceEnabled && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            } else if (voiceEnabled) {
+                replayDialogue();
+            }
+        }
+
+        // Client Inspector in Act III
+        function selectClient(idx) {
+            const c = clientDetails[idx];
+            document.querySelectorAll('.client-btn').forEach((btn, i) => {
+                if (i === idx) {
+                    btn.className = "client-btn p-3 rounded-xl bg-amber-500/15 border border-amber-500/50 text-left transition";
+                } else {
+                    btn.className = "client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition";
+                }
+            });
+            document.getElementById('client-detail-box').innerHTML = `
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-amber-400 text-base">${c.name}</h3>
+                    <span class="text-xs font-mono text-slate-400">${c.domain}</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">${c.desc}</p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                    ${c.tags.map(t => `<span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">${t}</span>`).join('')}
+                </div>
+            `;
+        }
+
+        // Autonomous Sonar Agent Simulation in Act IV
+        function runSonarDemo() {
+            const term = document.getElementById('ai-terminal');
+            if (!term) return;
+            const logs = [
+                "$ sonar-agent scan --project santander-consumer-merge",
+                "[INFO] Detected 4 cognitive complexity issues & 84.2% line coverage.",
+                "[AGENT] Creating branch: fix/sonar-autonomous-remediation-104...",
+                "[LLM: Claude 3.5 Sonnet + Devin] Generating JUnit 5 & Mockito test suites...",
+                "[MAVEN] Running mvn clean verify jacoco:report...",
+                "[SUCCESS] Build Passed! New Code Coverage: 96.4% (>95% threshold met). PR Ready."
+            ];
+            term.innerHTML = '';
+            logs.forEach((line, idx) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.textContent = line;
+                    if (line.includes('[SUCCESS]')) div.className = 'text-amber-300 font-bold';
+                    term.appendChild(div);
+                    term.scrollTop = term.scrollHeight;
+                }, idx * 550);
+            });
+        }
+
+        // Photo Upload & Persistence
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                savedPhotoData = e.target.result;
+                localStorage.setItem('biranchi_photo', savedPhotoData);
+                applySavedPhoto();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applySavedPhoto() {
+            if (!savedPhotoData) return;
+            const heroBox = document.getElementById('hero-photo-box');
+            if (heroBox) {
+                heroBox.innerHTML = `<img src="${savedPhotoData}" alt="Biranchi Narayan Sahu" class="w-full h-full object-cover">`;
+            }
+            const modalImg = document.getElementById('modal-avatar-img');
+            if (modalImg) {
+                modalImg.src = savedPhotoData;
+                modalImg.classList.remove('hidden');
+            }
+        }
+
+        // Copy LinkedIn Bio
+        function copyLinkedInBio() {
+            const text = document.getElementById('linkedin-bio-text').textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn');
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy Bio Text', 2000);
+            });
+        }
+
+        // Resume Modal
+        function openResumeModal() {
+            applySavedPhoto();
+            document.getElementById('resume-modal').classList.remove('hidden');
+        }
+        function closeResumeModal() {
+            document.getElementById('resume-modal').classList.add('hidden');
+        }
+
+        // Subtle Web Audio API Chime
+        function playCurtainChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.25); // E5
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.35);
+            } catch (e) {}
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextScene();
+            if (e.key === 'ArrowLeft') prevScene();
+        });
+    </script>
+</body>
+</html>
