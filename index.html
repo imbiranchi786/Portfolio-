@@ -135,7 +135,7 @@
 
         /* Talking mouth & soundwave state */
         .talking #elf-mouth {
-            animation: talkMouth 0.2s infinite alternate;
+            animation: talkMouth 0.18s infinite alternate;
         }
         @keyframes talkMouth {
             from { ry: 2; }
@@ -148,13 +148,13 @@
             background: #34d399;
             border-radius: 2px;
             margin: 0 1px;
-            animation: wavePulse 0.6s infinite ease-in-out;
+            animation: wavePulse 0.55s infinite ease-in-out;
         }
         .voice-wave span:nth-child(2) { animation-delay: 0.15s; }
         .voice-wave span:nth-child(3) { animation-delay: 0.3s; }
         @keyframes wavePulse {
             0%, 100% { transform: scaleY(0.4); }
-            50% { transform: scaleY(1.3); }
+            50% { transform: scaleY(1.35); }
         }
 
         /* Glass Cards */
@@ -203,7 +203,7 @@
     <!-- Top Animated Gradient Accent -->
     <div class="stage-top-glow"></div>
 
-    <!-- Interactive Welcome / Audio Unlock Overlay (Ensures Browser Allows Dobby Voice) -->
+    <!-- Interactive Welcome / Audio Unlock Overlay -->
     <div id="welcome-gate" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
         <div class="max-w-md w-full glass-panel gold-border rounded-2xl p-6 text-center space-y-4 shadow-2xl">
             <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-cinzel font-bold text-slate-950 text-2xl shadow-lg">
@@ -214,7 +214,7 @@
                 <p class="text-xs text-slate-300 mt-1">Senior Java Backend Developer & Technical Lead</p>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-                Welcome to my interactive 6-act career showcase guided by <strong>Dobby-Dev</strong>. Click below to start the presentation with live voice narration and animations.
+                Welcome to my interactive 6-act career showcase guided by <strong>Dobby-Dev</strong>. Click below to start with live voice narration and animations.
             </p>
             <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
                 <button onclick="startShow(true)" class="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg transition flex items-center justify-center gap-1.5">
@@ -227,7 +227,7 @@
         </div>
     </div>
 
-    <!-- Astral Portal Transition Overlay (Replaces Curtains) -->
+    <!-- Astral Portal Transition Overlay -->
     <div id="portal-overlay" class="portal-overlay">
         <div class="portal-ring ring-outer"></div>
         <div class="portal-ring ring-middle"></div>
@@ -339,7 +339,7 @@
             </div>
 
             <!-- Live Typewriter Dialogue Box -->
-            <div class="w-full bg-slate-950/90 border border-amber-500/30 rounded-xl p-4 text-left relative shadow-inner min-h-[128px]">
+            <div class="w-full bg-slate-950/90 border border-amber-500/30 rounded-xl p-4 text-left relative shadow-inner min-h-[135px]">
                 <div class="text-[11px] font-mono uppercase tracking-wider text-amber-400 mb-1 flex items-center justify-between">
                     <span class="flex items-center gap-2">
                         <span>● Live Commentary</span>
@@ -350,6 +350,7 @@
                     </button>
                 </div>
                 <p id="elf-speech" class="text-sm text-slate-200 leading-relaxed"></p>
+                <div id="audio-status-hint" class="text-[10px] text-slate-500 mt-2 font-mono"></div>
             </div>
 
             <!-- Photo Uploader Trigger -->
@@ -879,6 +880,7 @@
         let voiceEnabled = true;
         let voicesLoaded = [];
         let savedPhotoData = localStorage.getItem('biranchi_photo') || null;
+        let currentAudioEl = null;
 
         function loadVoices() {
             if ('speechSynthesis' in window) {
@@ -898,6 +900,15 @@
             voiceEnabled = withVoice;
             updateVoiceButtonUI();
             playPortalChime();
+
+            // Prime speechSynthesis synchronously inside the user's click event
+            if (withVoice && 'speechSynthesis' in window) {
+                try {
+                    const primer = new SpeechSynthesisUtterance(" ");
+                    primer.volume = 0.01;
+                    window.speechSynthesis.speak(primer);
+                } catch (e) {}
+            }
 
             const portal = document.getElementById('portal-overlay');
             portal.classList.add('active');
@@ -954,45 +965,112 @@
             typeDialogue(scene.dialogue, speak);
         }
 
+        // Dual-Engine Speech Synthesizer: Native Web Speech API + Automatic Cloud TTS Fallback
         function speakText(text) {
-            if (!voiceEnabled || !('speechSynthesis' in window)) return;
-            try {
+            if (!voiceEnabled) return;
+
+            const avatarEl = document.getElementById('elf-avatar');
+            const waveEl = document.getElementById('speaking-wave');
+            const statusHint = document.getElementById('audio-status-hint');
+
+            // Stop any existing audio
+            if (currentAudioEl) {
+                currentAudioEl.pause();
+                currentAudioEl = null;
+            }
+            if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                if (window.speechSynthesis.paused) {
-                    window.speechSynthesis.resume();
+            }
+
+            const startAnim = (label) => {
+                avatarEl.classList.add('talking');
+                if (waveEl) waveEl.classList.remove('hidden');
+                if (statusHint) statusHint.textContent = label;
+            };
+            const stopAnim = () => {
+                avatarEl.classList.remove('talking');
+                if (waveEl) waveEl.classList.add('hidden');
+                if (statusHint) statusHint.textContent = "";
+            };
+
+            // Try native browser Web Speech API first
+            let nativeAttempted = false;
+            if ('speechSynthesis' in window) {
+                try {
+                    if (window.speechSynthesis.paused) {
+                        window.speechSynthesis.resume();
+                    }
+                    const utter = new SpeechSynthesisUtterance(text);
+                    if (voicesLoaded.length === 0) {
+                        voicesLoaded = window.speechSynthesis.getVoices();
+                    }
+                    const preferredVoice = voicesLoaded.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('UK') || v.name.includes('Natural') || v.name.includes('Microsoft'))) 
+                                        || voicesLoaded.find(v => v.lang.startsWith('en'));
+                    if (preferredVoice) {
+                        utter.voice = preferredVoice;
+                    }
+                    utter.rate = 1.03;
+                    utter.pitch = 1.12;
+                    utter.volume = 1.0;
+
+                    let started = false;
+                    utter.onstart = () => {
+                        started = true;
+                        startAnim("🔊 Narrating via browser voice...");
+                    };
+                    utter.onend = () => stopAnim();
+                    utter.onerror = () => {
+                        if (!started) playCloudTTSFallback(text, startAnim, stopAnim);
+                        else stopAnim();
+                    };
+
+                    window._currentUtterance = utter;
+                    window.speechSynthesis.speak(utter);
+                    nativeAttempted = true;
+
+                    // If browser silently drops speechSynthesis (common in Linux/mobile WebViews), trigger fallback after 600ms
+                    setTimeout(() => {
+                        if (!started && !window.speechSynthesis.speaking && voiceEnabled) {
+                            playCloudTTSFallback(text, startAnim, stopAnim);
+                        }
+                    }, 650);
+                } catch (e) {
+                    nativeAttempted = false;
                 }
+            }
 
-                const utter = new SpeechSynthesisUtterance(text);
-                if (voicesLoaded.length === 0) {
-                    voicesLoaded = window.speechSynthesis.getVoices();
+            if (!nativeAttempted) {
+                playCloudTTSFallback(text, startAnim, stopAnim);
+            }
+        }
+
+        // Cloud TTS Fallback using chunked HTML5 Audio (Works even when OS has 0 local voices installed)
+        function playCloudTTSFallback(fullText, startAnim, stopAnim) {
+            if (!voiceEnabled) return;
+            // Split into <= 180 char chunks at sentence/clause boundaries
+            const chunks = fullText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [fullText];
+            let idx = 0;
+
+            function playNextChunk() {
+                if (!voiceEnabled || idx >= chunks.length) {
+                    stopAnim();
+                    return;
                 }
-                const preferredVoice = voicesLoaded.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('UK') || v.name.includes('Natural'))) 
-                                    || voicesLoaded.find(v => v.lang.startsWith('en'));
-                if (preferredVoice) {
-                    utter.voice = preferredVoice;
+                const chunk = chunks[idx].trim();
+                idx++;
+                if (!chunk) {
+                    playNextChunk();
+                    return;
                 }
-                utter.rate = 1.04;
-                utter.pitch = 1.15;
-
-                const avatarEl = document.getElementById('elf-avatar');
-                const waveEl = document.getElementById('speaking-wave');
-
-                utter.onstart = () => {
-                    avatarEl.classList.add('talking');
-                    if (waveEl) waveEl.classList.remove('hidden');
-                };
-                utter.onend = () => {
-                    avatarEl.classList.remove('talking');
-                    if (waveEl) waveEl.classList.add('hidden');
-                };
-                utter.onerror = () => {
-                    avatarEl.classList.remove('talking');
-                    if (waveEl) waveEl.classList.add('hidden');
-                };
-
-                window._currentUtterance = utter;
-                window.speechSynthesis.speak(utter);
-            } catch (e) {}
+                const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(chunk)}`;
+                const audio = new Audio(url);
+                currentAudioEl = audio;
+                audio.onplay = () => startAnim("🔊 Narrating...");
+                audio.onended = () => playNextChunk();
+                audio.onerror = () => stopAnim();
+                audio.play().catch(() => stopAnim());
+            }
+            playNextChunk();
         }
 
         function typeDialogue(text, speak) {
@@ -1009,7 +1087,7 @@
                     i++;
                 } else {
                     clearInterval(typewriterTimer);
-                    if (!window.speechSynthesis || !window.speechSynthesis.speaking) {
+                    if ((!window.speechSynthesis || !window.speechSynthesis.speaking) && !currentAudioEl) {
                         avatarEl.classList.remove('talking');
                     }
                 }
@@ -1066,12 +1144,18 @@
             if (voiceEnabled) {
                 speakText(scenes[currentScene].dialogue);
             } else {
+                if (currentAudioEl) {
+                    currentAudioEl.pause();
+                    currentAudioEl = null;
+                }
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
                 }
                 document.getElementById('elf-avatar').classList.remove('talking');
                 const waveEl = document.getElementById('speaking-wave');
                 if (waveEl) waveEl.classList.add('hidden');
+                const statusHint = document.getElementById('audio-status-hint');
+                if (statusHint) statusHint.textContent = "";
             }
         }
 
