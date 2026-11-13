@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biranchi Narayan Sahu | Senior Java Backend & Agentic AI Engineer</title>
+    <title>Biranchi Narayan Sahu | Senior Java Backend Developer & Technical Lead</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #f59e0b;
             --gold-light: #fcd34d;
-            --crimson: #7f1d1d;
-            --crimson-dark: #450a0a;
-            --bg-dark: #090d16;
+            --cyan: #38bdf8;
+            --bg-dark: #070b14;
             --panel-bg: rgba(15, 23, 42, 0.85);
         }
         body {
@@ -21,50 +20,95 @@
             color: #f8fafc;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(245, 158, 11, 0.06), transparent 35%),
-                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 35%);
+                radial-gradient(circle at 18% 25%, rgba(56, 189, 248, 0.08), transparent 40%),
+                radial-gradient(circle at 82% 75%, rgba(245, 158, 11, 0.08), transparent 40%);
         }
         .font-cinzel { font-family: 'Cinzel', serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Velvet Stage Curtains */
-        .curtain-container {
+        /* Ambient Particle Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Cinematic Astral Portal Transition Overlay */
+        .portal-overlay {
             position: fixed;
             inset: 0;
             z-index: 60;
             pointer-events: none;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            backdrop-filter: blur(0px);
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%);
+            transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.45s ease;
         }
-        .curtain-left, .curtain-right {
-            width: 50%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                90deg,
-                #450a0a 0px,
-                #7f1d1d 25px,
-                #991b1b 50px,
-                #450a0a 75px
-            );
-            box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
-            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-            position: relative;
+        .portal-overlay.active {
+            opacity: 1;
+            backdrop-filter: blur(16px);
         }
-        .curtain-left { border-right: 4px solid var(--gold); transform: translateX(-100%); }
-        .curtain-right { border-left: 4px solid var(--gold); transform: translateX(100%); }
-        .curtains-closed .curtain-left { transform: translateX(0%); }
-        .curtains-closed .curtain-right { transform: translateX(0%); }
+        .portal-ring {
+            position: absolute;
+            border-radius: 9999px;
+            border: 2px solid transparent;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease;
+            transform: scale(0.4);
+            opacity: 0;
+        }
+        .portal-overlay.active .portal-ring {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .ring-outer {
+            width: 260px;
+            height: 260px;
+            border-top-color: #f59e0b;
+            border-bottom-color: #38bdf8;
+            animation: spinSlow 3s linear infinite;
+        }
+        .ring-middle {
+            width: 195px;
+            height: 195px;
+            border-left-color: #38bdf8;
+            border-right-color: #a855f7;
+            animation: spinReverse 2.2s linear infinite;
+        }
+        .ring-inner {
+            width: 130px;
+            height: 130px;
+            border-top-color: #fcd34d;
+            border-left-color: #f59e0b;
+            animation: spinSlow 1.5s linear infinite;
+        }
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
 
-        /* Top Valance */
-        .stage-valance {
+        /* Top Accent Bar */
+        .stage-top-glow {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 18px;
-            background: linear-gradient(180deg, #450a0a, #7f1d1d);
-            border-bottom: 2px solid var(--gold);
+            height: 3px;
+            background: linear-gradient(90deg, #38bdf8, #f59e0b, #a855f7, #38bdf8);
+            background-size: 200% 100%;
+            animation: gradientFlow 6s linear infinite;
             z-index: 55;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
         /* Elf Guide Animations */
@@ -81,29 +125,44 @@
             50% { transform: rotate(6deg); }
         }
         @keyframes pulseGlow {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.12); }
+            0%, 100% { opacity: 0.75; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
         }
         .elf-float { animation: floatElf 3.5s ease-in-out infinite; }
         .ear-left { transform-origin: 75px 75px; animation: earWiggleLeft 3s ease-in-out infinite; }
         .ear-right { transform-origin: 125px 75px; animation: earWiggleRight 3s ease-in-out infinite; }
         .badge-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
 
-        /* Talking mouth state */
+        /* Talking mouth & soundwave state */
         .talking #elf-mouth {
-            animation: talkMouth 0.25s infinite alternate;
+            animation: talkMouth 0.2s infinite alternate;
         }
         @keyframes talkMouth {
             from { ry: 2; }
-            to { ry: 6; }
+            to { ry: 6.5; }
+        }
+        .voice-wave span {
+            display: inline-block;
+            width: 3px;
+            height: 10px;
+            background: #34d399;
+            border-radius: 2px;
+            margin: 0 1px;
+            animation: wavePulse 0.6s infinite ease-in-out;
+        }
+        .voice-wave span:nth-child(2) { animation-delay: 0.15s; }
+        .voice-wave span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes wavePulse {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.3); }
         }
 
         /* Glass Cards */
         .glass-panel {
             background: var(--panel-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
         }
         .gold-border {
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -111,11 +170,11 @@
 
         /* Scene Transition */
         .scene-fade {
-            animation: sceneAppear 0.55s ease-out forwards;
+            animation: sceneAppear 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         @keyframes sceneAppear {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(14px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* Print Styles for Executive Resume Modal */
@@ -136,30 +195,58 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950 relative">
 
-    <!-- Top Stage Valance -->
-    <div class="stage-valance"></div>
+    <!-- Ambient Starfield & Constellation Canvas -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Velvet Curtain Overlay -->
-    <div id="curtain-overlay" class="curtain-container curtains-closed">
-        <div class="curtain-left flex items-center justify-end pr-8">
-            <div class="text-amber-400/30 font-cinzel text-4xl tracking-widest hidden md:block">ACT</div>
+    <!-- Top Animated Gradient Accent -->
+    <div class="stage-top-glow"></div>
+
+    <!-- Interactive Welcome / Audio Unlock Overlay (Ensures Browser Allows Dobby Voice) -->
+    <div id="welcome-gate" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="max-w-md w-full glass-panel gold-border rounded-2xl p-6 text-center space-y-4 shadow-2xl">
+            <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-cinzel font-bold text-slate-950 text-2xl shadow-lg">
+                BS
+            </div>
+            <div>
+                <h2 class="font-cinzel text-xl font-bold text-amber-400">BIRANCHI NARAYAN SAHU</h2>
+                <p class="text-xs text-slate-300 mt-1">Senior Java Backend Developer & Technical Lead</p>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                Welcome to my interactive 6-act career showcase guided by <strong>Dobby-Dev</strong>. Click below to start the presentation with live voice narration and animations.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+                <button onclick="startShow(true)" class="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg transition flex items-center justify-center gap-1.5">
+                    🔊 Enter with Voice Narration
+                </button>
+                <button onclick="startShow(false)" class="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+                    🔇 Enter Muted
+                </button>
+            </div>
         </div>
-        <div class="curtain-right flex items-center justify-start pl-8">
-            <div class="text-amber-400/30 font-cinzel text-4xl tracking-widest hidden md:block">STAGE</div>
+    </div>
+
+    <!-- Astral Portal Transition Overlay (Replaces Curtains) -->
+    <div id="portal-overlay" class="portal-overlay">
+        <div class="portal-ring ring-outer"></div>
+        <div class="portal-ring ring-middle"></div>
+        <div class="portal-ring ring-inner"></div>
+        <div class="text-center z-10">
+            <div id="portal-act-label" class="font-cinzel text-amber-400 text-xl tracking-[0.25em] font-bold">ACT I</div>
+            <div id="portal-act-sub" class="text-xs font-mono text-sky-300 mt-1 tracking-wider uppercase">Initializing Stage...</div>
         </div>
     </div>
 
     <!-- Top Navigation & Cinema Controls -->
-    <header class="pt-7 pb-3 px-4 md:px-8 max-w-7xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 z-40">
+    <header class="pt-6 pb-3 px-4 md:px-8 max-w-7xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 z-40">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-cinzel font-bold text-slate-950 text-lg shadow-lg shadow-amber-500/20">
                 BS
             </div>
             <div>
                 <h1 class="font-cinzel font-bold text-base md:text-lg tracking-wide text-amber-400">BIRANCHI NARAYAN SAHU</h1>
-                <p class="text-xs text-slate-400">Senior Java Backend & Agentic AI Engineer • 7+ Years</p>
+                <p class="text-xs text-slate-300">Senior Java Backend Developer & Technical Lead • 7+ Years</p>
             </div>
         </div>
 
@@ -175,8 +262,8 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
             <div class="h-4 w-[1px] bg-slate-700 mx-1"></div>
-            <button id="btn-voice" onclick="toggleVoice()" class="p-1.5 text-slate-400 hover:text-emerald-400 transition" title="Toggle Voice Narration">
-                🔇
+            <button id="btn-voice" onclick="toggleVoice()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 text-xs font-semibold transition" title="Toggle Dobby Voice Narration">
+                <span id="voice-icon">🔊</span> <span id="voice-label">Voice On</span>
             </button>
             <button onclick="openResumeModal()" class="ml-1 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow">
                 📄 PDF Resume
@@ -184,7 +271,7 @@
         </div>
     </header>
 
-    <!-- Main 2-Column Stage Container (Zero Overlap Architecture) -->
+    <!-- Main 2-Column Stage Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-4 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start z-30">
 
         <!-- LEFT COLUMN: Dedicated House-Elf Stage Guide (4 Cols) -->
@@ -195,14 +282,13 @@
             </div>
 
             <!-- Custom High-Detail House-Elf SVG Character -->
-            <div id="elf-avatar" class="elf-float my-2 relative">
+            <div id="elf-avatar" class="elf-float my-2 relative cursor-pointer" onclick="replayDialogue()" title="Click Dobby to speak!">
                 <svg width="175" height="175" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Ambient Glow -->
                     <circle cx="100" cy="100" r="78" fill="url(#elfAura)" opacity="0.45"/>
                     <defs>
                         <radialGradient id="elfAura" cx="50%" cy="50%" r="50%">
                             <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.5"/>
-                            <stop offset="100%" stop-color="#090d16" stop-opacity="0"/>
+                            <stop offset="100%" stop-color="#070b14" stop-opacity="0"/>
                         </radialGradient>
                     </defs>
 
@@ -219,12 +305,10 @@
                     <!-- Classic Pillowcase / Linen Tunic -->
                     <path d="M64 115 L52 178 L148 178 L136 115 Q100 126 64 115 Z" fill="#cbb59d" stroke="#78634d" stroke-width="2"/>
                     <path d="M74 118 L70 178 M126 118 L130 178" stroke="#9e876f" stroke-width="1.5" stroke-dasharray="4 3"/>
-                    <!-- Knotted Shoulder Tie -->
                     <circle cx="135" cy="117" r="6" fill="#b39b82" stroke="#78634d" stroke-width="1.5"/>
 
                     <!-- Head -->
                     <ellipse cx="100" cy="78" rx="31" ry="34" fill="#e0bfa8" stroke="#8c6852" stroke-width="2"/>
-                    <!-- Forehead Wrinkles -->
                     <path d="M86 55 Q100 52 114 55" fill="none" stroke="#a68068" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M89 60 Q100 58 111 60" fill="none" stroke="#a68068" stroke-width="1.2" stroke-linecap="round"/>
 
@@ -255,10 +339,15 @@
             </div>
 
             <!-- Live Typewriter Dialogue Box -->
-            <div class="w-full bg-slate-950/90 border border-amber-500/30 rounded-xl p-4 text-left relative shadow-inner min-h-[125px]">
+            <div class="w-full bg-slate-950/90 border border-amber-500/30 rounded-xl p-4 text-left relative shadow-inner min-h-[128px]">
                 <div class="text-[11px] font-mono uppercase tracking-wider text-amber-400 mb-1 flex items-center justify-between">
-                    <span>● Live Commentary</span>
-                    <button onclick="replayDialogue()" class="text-slate-400 hover:text-amber-300 text-xs" title="Replay Speech">↻</button>
+                    <span class="flex items-center gap-2">
+                        <span>● Live Commentary</span>
+                        <span id="speaking-wave" class="voice-wave hidden"><span></span><span></span><span></span></span>
+                    </span>
+                    <button onclick="replayDialogue()" class="px-2 py-0.5 rounded bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 text-[11px] font-semibold transition" title="Speak Commentary">
+                        🔊 Speak
+                    </button>
                 </div>
                 <p id="elf-speech" class="text-sm text-slate-200 leading-relaxed"></p>
             </div>
@@ -297,7 +386,7 @@
             </button>
             <button onclick="goToScene(3)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="3">
                 <div class="text-[10px] font-mono text-amber-400">ACT IV</div>
-                <div class="text-xs font-semibold truncate">Agentic AI & DevEx Lab</div>
+                <div class="text-xs font-semibold truncate">GenAI & DevEx Lab</div>
             </button>
             <button onclick="goToScene(4)" class="scene-tab flex-1 min-w-[120px] py-2 px-3 rounded-lg text-left transition border border-transparent" data-idx="4">
                 <div class="text-[10px] font-mono text-amber-400">ACT V</div>
@@ -313,9 +402,8 @@
     <!-- Printable Executive Resume Modal -->
     <div id="resume-modal" class="fixed inset-0 bg-black/85 z-50 hidden overflow-y-auto p-4 md:p-8">
         <div class="max-w-4xl mx-auto bg-white text-slate-900 rounded-xl shadow-2xl overflow-hidden">
-            <!-- Modal Top Action Bar -->
             <div class="no-print bg-slate-900 text-white px-6 py-3 flex items-center justify-between">
-                <span class="text-sm font-semibold text-amber-400">Executive Director's Cut — Printable Resume</span>
+                <span class="text-sm font-semibold text-amber-400">Executive Printable Resume</span>
                 <div class="flex items-center gap-3">
                     <button onclick="window.print()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-semibold transition">
                         🖨️ Print / Save as PDF
@@ -326,20 +414,19 @@
                 </div>
             </div>
 
-            <!-- Resume Document Body -->
             <div class="p-8 md:p-10 space-y-6 text-sm leading-relaxed">
                 <div class="border-b-2 border-blue-800 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 tracking-tight">BIRANCHI NARAYAN SAHU</h1>
-                        <p class="text-blue-700 font-semibold">Senior Java Backend Engineer & Agentic AI Specialist (7+ Years Experience)</p>
-                        <p class="text-xs text-slate-600 mt-1">Bengaluru, India • Global Delivery: UK, Germany, USA, Canada, Hong Kong</p>
+                        <p class="text-blue-700 font-semibold">Senior Java Backend Developer & Technical Lead (7+ Years Experience)</p>
+                        <p class="text-xs text-slate-600 mt-1">Email: imbiranchi786@gmail.com • Phone: +91 8861003151 • Bengaluru, India</p>
                     </div>
                     <img id="modal-avatar-img" src="" alt="Profile" class="hidden w-16 h-16 rounded-full object-cover border-2 border-blue-700">
                 </div>
 
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Executive Summary</h2>
-                    <p class="text-slate-700">Results-driven Senior Java Backend Engineer with 7+ years of enterprise experience architecting high-throughput distributed microservices, cloud-native data pipelines, and large-scale banking migrations. Currently serving as Technical Lead for Santander Bank (UK), spearheading core banking module migrations and pioneering autonomous Agentic AI developer tooling.</p>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Executive Profile Summary</h2>
+                    <p class="text-slate-700 text-xs">Seasoned Senior Java Backend Developer & Technical Lead with over 7 years of hands-on experience architecting, modernizing, and deploying high-availability cloud-native microservices across global Banking, Automotive, Telecommunications, and Insurance enterprises. Proven leader in driving complex digital transformations, including core banking migrations (TSB to Santander UK) and enterprise record migrations (50M+ records for Daimler Truck), alongside designing custom Model Context Protocol (MCP) integrations, Sonar remediation pipelines, and Santander-compliant framework scaffolding plugins.</p>
                 </div>
 
                 <div>
@@ -354,51 +441,51 @@
 
                 <div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">Key Enterprise Experience & Flagship Deliverables</h2>
-                    <div class="space-y-3">
+                    <div class="space-y-3 text-xs text-slate-700">
                         <div>
                             <div class="flex justify-between font-bold text-slate-900">
-                                <span>Technical Lead — Santander Bank (UK) (via Tech Mahindra)</span>
-                                <span class="text-xs text-slate-500">Current (1.5+ Years)</span>
+                                <span>Senior Software Engineer (Senior Java Developer / Tech Lead) — Tech Mahindra (Santander Bank UK)</span>
+                                <span class="text-slate-500">2024 – Present</span>
                             </div>
-                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1 mt-1">
-                                <li>Led end-to-end backend architecture and migration of <strong>7 core banking modules</strong> from TSB to Santander UK with zero critical production downtime.</li>
-                                <li>Architected and built a high-throughput <strong>Consumer Merge Microservice Engine</strong> from scratch, reconciling complex relational schemas across <strong>13+ database tables</strong>.</li>
-                                <li>Directed requirements gathering, peer code reviews, and mentored cross-functional engineering squads.</li>
+                            <ul class="list-disc pl-5 space-y-1 mt-1">
+                                <li>Led end-to-end backend architecture and customer dataset migration across <strong>7 core banking modules</strong> from TSB Bank to Santander UK.</li>
+                                <li>Designed and developed high-throughput <strong>Consumer Merge Engine Microservices</strong> from scratch to harmonize and merge customer records across <strong>13+ relational database tables</strong> with zero data loss.</li>
+                                <li>Established code review standards, enforced SOLID principles, and mentored engineers on cloud-native Java and Spring Boot best practices.</li>
                             </ul>
                         </div>
 
                         <div>
                             <div class="flex justify-between font-bold text-slate-900">
-                                <span>Senior Backend Developer — Global Enterprise Accounts (Cognizant & CGI)</span>
-                                <span class="text-xs text-slate-500">5.5+ Years</span>
+                                <span>Associate Projects (Lead Java Developer) & Software Engineer — Cognizant & CGI</span>
+                                <span class="text-slate-500">2019 – 2024</span>
                             </div>
-                            <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1 mt-1">
-                                <li><strong>Daimler Truck & Mercedes-Benz:</strong> Engineered resilient ETL and Java microservices migrating <strong>50M+ enterprise vehicle & telemetry records</strong>.</li>
-                                <li><strong>BNSF Railway & Network Rail:</strong> Built real-time rail logistics and scheduling APIs handling mission-critical freight telemetry.</li>
-                                <li><strong>HSBC (PayOS), The Hartford & Bell Canada:</strong> Developed secure payment settlement microservices, insurance policy engines, and telecom billing integrations.</li>
+                            <ul class="list-disc pl-5 space-y-1 mt-1">
+                                <li><strong>Daimler Truck & Mercedes-Benz (Germany):</strong> Led migration of <strong>50M+ records</strong> from legacy Mercedes-Benz environments to Daimler Truck databases and architected IoT Smart Parking APIs on AWS.</li>
+                                <li><strong>BNSF Railway (USA) & Network Rail (UK):</strong> Modernized Locomotive GPS & Coal Facility systems into Spring Boot/Kafka microservices; automated PMO reporting workflows.</li>
+                                <li><strong>HSBC (Hong Kong) & The Hartford (USA):</strong> Engineered PayOS payment validation APIs with JWT/Redis and reduced insurance claim errors by 30% via Spring Batch.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">GenAI, Agentic AI & Custom Enterprise Tooling</h2>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-800 border-b border-slate-200 pb-1 mb-2">GenAI Playbooks, Autonomous Agents & Enterprise Plugins</h2>
                     <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1">
-                        <li><strong>Autonomous Sonar Remediation Agent:</strong> Built an AI workflow integrating Sonar agents with Maven/Gradle to auto-create feature branches, resolve code smells/vulnerabilities, and enforce <strong>&gt;95% unit test coverage</strong>.</li>
-                        <li><strong>Knowledge-Hub Log Analysis & Debug Agent:</strong> Created a historical remediation Knowledge Hub enabling autonomous root-cause analysis on runtime stack traces.</li>
-                        <li><strong>Model Context Protocol (MCP) Integration:</strong> Connected Confluence, Jira, and Playwright to automate customer journey verification and auto-generate structured Jira bug tickets.</li>
-                        <li><strong>Santander Framework Scaffolding Plugins:</strong> Developed CLI/IDE plugins generating standardized, compliance-ready project skeletons for Java, Apache Spark, Mainframe modernization, and Python.</li>
+                        <li><strong>Autonomous Sonar Remediation Agent:</strong> Connected Sonar APIs with Maven/Gradle build systems to auto-provision feature branches, analyze code vulnerabilities, execute fixes, and maintain <strong>&gt;95% unit test code coverage</strong>.</li>
+                        <li><strong>Intelligent Debugging & Log Analysis Agent:</strong> Automated root-cause analysis agent powered by a centralized Knowledge Hub matching runtime exceptions against historical remediation logic.</li>
+                        <li><strong>Model Context Protocol (MCP) Integration:</strong> Custom MCP servers bridging Confluence, Jira, and Playwright to automate end-to-end customer journey testing and auto-generate detailed Jira tickets.</li>
+                        <li><strong>Santander Framework Skeleton Plugins:</strong> Enterprise scaffolding plugins generating standardized, compliance-ready starter skeletons for Java, Apache Spark, Mainframe modernization, and Python microservices.</li>
                     </ul>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-200 text-xs">
                     <div>
-                        <strong class="text-blue-800 uppercase">Certifications & Training:</strong>
-                        <p class="text-slate-700 mt-1">AI Whitebelt • Cloud Development • GitHub Copilot Mastery • Agentic AI Architecture • Enterprise Prompt Engineering</p>
+                        <strong class="text-blue-800 uppercase">Certifications & Courses:</strong>
+                        <p class="text-slate-700 mt-1">AI Whitebelt • Cloud Development • GitHub Copilot Mastery • Agentic AI Engineering • Enterprise Prompt Engineering</p>
                     </div>
                     <div>
                         <strong class="text-blue-800 uppercase">Education:</strong>
-                        <p class="text-slate-700 mt-1">Master of Computer Applications (MCA) — OUTR / CET<br>B.Sc. (Honours) in Computer Science</p>
+                        <p class="text-slate-700 mt-1">Master of Computer Applications (MCA) — OUTR (formerly CET), Bhubaneswar<br>B.Sc. (Hons) — S.K.C.G. Autonomous College</p>
                     </div>
                 </div>
             </div>
@@ -406,23 +493,79 @@
     </div>
 
     <script>
+        // --- Ambient Animated Starfield & Constellation Canvas ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 65; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.8 + 0.5,
+                dx: (Math.random() - 0.5) * 0.35,
+                dy: (Math.random() - 0.5) * 0.35,
+                color: i % 3 === 0 ? 'rgba(245, 158, 11, 0.45)' : 'rgba(56, 189, 248, 0.4)'
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 115) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.12 * (1 - dist / 115)})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
         // --- Portfolio Data & 6-Act Script ---
         const scenes = [
             {
                 act: "ACT I / VI",
+                portalName: "ACT I",
+                portalSub: "Executive Profile & Global Scale",
                 title: "The Architect Behind Enterprise Scale",
-                subtitle: "7+ Years of Mission-Critical Java Backend Engineering & Agentic AI Innovation",
-                dialogue: "Welcome! I am Dobby-Dev, your stage guide. Today I present Biranchi Narayan Sahu — a Senior Java Backend Engineer with over 7 years of global delivery across the UK, Germany, USA, Canada, and Hong Kong.",
+                subtitle: "7+ Years of Mission-Critical Java Backend Development & Technical Leadership",
+                dialogue: "Welcome! I am Dobby-Dev, your stage guide. Today I present Biranchi Narayan Sahu — a Senior Java Backend Developer and Technical Lead with over 7 years of global delivery across the UK, Germany, USA, Canada, and Hong Kong.",
                 render: () => `
                     <div class="space-y-6">
                         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 pb-5 border-b border-slate-800">
                             <div id="hero-photo-box" class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500/20 to-blue-600/20 border-2 border-amber-400/50 flex items-center justify-center overflow-hidden shrink-0 shadow-lg">
-                                <span class="font-cinzel font-bold text-2xl text-amber-400">BNS</span>
+                                <span class="font-cinzel font-bold text-2xl text-amber-400">BS</span>
                             </div>
                             <div>
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Available for Senior / Lead Roles</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Senior Java Backend Developer & Technical Lead</span>
                                 <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1.5">Biranchi Narayan Sahu</h2>
-                                <p class="text-slate-300 text-sm mt-1">Technical Lead @ Santander Bank (UK) • Ex-Cognizant • Ex-CGI</p>
+                                <p class="text-slate-300 text-sm mt-1">Tech Mahindra (Santander Bank UK) • Ex-Cognizant • Ex-CGI</p>
                             </div>
                         </div>
 
@@ -448,10 +591,10 @@
                         <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-4 space-y-2">
                             <h3 class="text-xs font-mono uppercase tracking-wider text-amber-400">Global Delivery Footprint</h3>
                             <div class="flex flex-wrap gap-2 pt-1">
-                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇬🇧 United Kingdom (Santander, HSBC, Network Rail)</span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇬🇧 United Kingdom (Santander, Network Rail)</span>
                                 <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇩🇪 Germany (Daimler Truck, Mercedes-Benz)</span>
                                 <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇺🇸 USA (BNSF Railway, The Hartford)</span>
-                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇨🇦 Canada (Bell Canada)</span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800 text-xs text-slate-200">🇭🇰 Hong Kong (HSBC PayOS)</span>
                             </div>
                         </div>
                     </div>
@@ -459,14 +602,16 @@
             },
             {
                 act: "ACT II / VI",
+                portalName: "ACT II",
+                portalSub: "Santander Bank UK Flagship",
                 title: "Flagship Engagement: Santander Bank (UK)",
-                subtitle: "Technical Lead • Core Banking Migration & 13+ Table Consumer Merge Engine",
-                dialogue: "In Act Two, look at Biranchi's current leadership at Santander Bank UK. He spearheaded the migration of 7 core banking modules from TSB and engineered a 13-table consumer merge service completely from scratch!",
+                subtitle: "Senior Java Developer & Technical Lead • Core Banking Migration & 13+ Table Consumer Merge Engine",
+                dialogue: "In Act Two, look at Biranchi's leadership at Santander Bank UK. He spearheaded the customer dataset migration across 7 core banking modules from TSB and engineered a 13-table consumer merge service completely from scratch!",
                 render: () => `
                     <div class="space-y-5">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                             <div>
-                                <span class="text-xs font-mono text-red-400 uppercase">Current Role • 1.5+ Years</span>
+                                <span class="text-xs font-mono text-red-400 uppercase">Current Role • 2024 – Present (1.5+ Yrs)</span>
                                 <h2 class="font-cinzel text-2xl font-bold text-white">Santander Bank (UK)</h2>
                             </div>
                             <span class="px-3 py-1 rounded-lg bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-semibold">Tech Lead</span>
@@ -476,23 +621,23 @@
                             <div class="bg-slate-900/90 border border-amber-500/25 rounded-xl p-4 space-y-2">
                                 <div class="text-amber-400 font-bold text-sm">01. 7-Module TSB Core Banking Migration</div>
                                 <p class="text-xs text-slate-300 leading-relaxed">
-                                    Led the end-to-end backend migration of <strong>7 mission-critical banking modules</strong> from TSB into Santander UK's ecosystem, ensuring zero data corruption and strict regulatory compliance.
+                                    Successfully architected and executed the end-to-end customer dataset migration across <strong>7 core banking modules</strong> from TSB Bank to Santander UK with zero critical downtime.
                                 </p>
                             </div>
                             <div class="bg-slate-900/90 border border-blue-500/25 rounded-xl p-4 space-y-2">
                                 <div class="text-blue-400 font-bold text-sm">02. 13+ Table Consumer Merge Engine</div>
                                 <p class="text-xs text-slate-300 leading-relaxed">
-                                    Architected and built a high-throughput <strong>Consumer Merge Microservice</strong> from scratch, reconciling complex customer state across <strong>13+ relational tables</strong> in real time.
+                                    Designed and developed high-throughput <strong>Consumer Merge Engine Microservices</strong> from scratch to harmonize and merge customer records across <strong>13+ relational database tables</strong>.
                                 </p>
                             </div>
                         </div>
 
                         <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 space-y-2">
-                            <h3 class="text-xs font-mono uppercase text-amber-400">Technical Leadership & Governance</h3>
+                            <h3 class="text-xs font-mono uppercase text-amber-400">Engineering Governance & Technical Leadership</h3>
                             <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4">
-                                <li>Owned functional requirements gathering directly with UK banking stakeholders and solution architects.</li>
-                                <li>Enforced strict code quality gates, conducted peer code reviews, and mentored backend engineering squads.</li>
-                                <li>Integrated automated CI/CD pipelines with Java 17/21, Spring Boot, Apache Kafka, and AWS cloud infrastructure.</li>
+                                <li>Led backend architecture, requirements gathering, peer code reviews, and developer mentorship for critical banking integration programs.</li>
+                                <li>Established code review standards, enforced SOLID principles, and mentored junior engineers on cloud-native Java and Spring Boot best practices.</li>
+                                <li>Tech Stack: Java 17/21, Spring Boot, Microservices, Kafka, Oracle DB, PostgreSQL, Docker, Jenkins.</li>
                             </ul>
                         </div>
                     </div>
@@ -500,56 +645,58 @@
             },
             {
                 act: "ACT III / VI",
+                portalName: "ACT III",
+                portalSub: "Global Enterprise Portfolio",
                 title: "Global Enterprise Portfolio",
                 subtitle: "Click any enterprise client below to inspect architectural scale & impact",
-                dialogue: "Before Santander, Biranchi delivered massive data and microservice platforms for Daimler Truck, BNSF Railway, HSBC, Network Rail, and The Hartford. Click any client card to inspect the details!",
+                dialogue: "Before Santander, Biranchi delivered massive data and microservice platforms for Daimler Truck, BNSF Railway, HSBC, Mercedes-Benz, Network Rail, and The Hartford. Click any client card to inspect the details!",
                 render: () => `
                     <div class="space-y-4">
                         <div class="border-b border-slate-800 pb-3">
                             <h2 class="font-cinzel text-2xl font-bold text-white">Enterprise Track Record</h2>
-                            <p class="text-xs text-slate-400">5.5+ Years across Cognizant & CGI delivering high-volume distributed systems</p>
+                            <p class="text-xs text-slate-400">2019 – 2024 across Cognizant & CGI delivering high-volume distributed systems</p>
                         </div>
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="client-grid">
                             <button onclick="selectClient(0)" class="client-btn p-3 rounded-xl bg-amber-500/15 border border-amber-500/50 text-left transition">
                                 <div class="text-xs font-bold text-amber-300">Daimler Truck</div>
-                                <div class="text-[11px] text-slate-400">50M+ Records ETL</div>
+                                <div class="text-[11px] text-slate-400">50M+ Records Migration</div>
                             </button>
                             <button onclick="selectClient(1)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
                                 <div class="text-xs font-bold text-white">BNSF Railway</div>
-                                <div class="text-[11px] text-slate-400">Freight Logistics APIs</div>
+                                <div class="text-[11px] text-slate-400">Locomotive GPS & Kafka</div>
                             </button>
                             <button onclick="selectClient(2)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
                                 <div class="text-xs font-bold text-white">HSBC (PayOS)</div>
-                                <div class="text-[11px] text-slate-400">Global Payments</div>
+                                <div class="text-[11px] text-slate-400">Payment Gateway</div>
                             </button>
                             <button onclick="selectClient(3)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
                                 <div class="text-xs font-bold text-white">Mercedes-Benz</div>
-                                <div class="text-[11px] text-slate-400">Connected Mobility</div>
+                                <div class="text-[11px] text-slate-400">Smart Parking IoT</div>
                             </button>
                             <button onclick="selectClient(4)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
                                 <div class="text-xs font-bold text-white">Network Rail</div>
-                                <div class="text-[11px] text-slate-400">UK Rail Infrastructure</div>
+                                <div class="text-[11px] text-slate-400">PRT & Workflow Automation</div>
                             </button>
                             <button onclick="selectClient(5)" class="client-btn p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-left transition">
-                                <div class="text-xs font-bold text-white">The Hartford & Bell</div>
-                                <div class="text-[11px] text-slate-400">Insurance & Telecom</div>
+                                <div class="text-xs font-bold text-white">The Hartford</div>
+                                <div class="text-[11px] text-slate-400">Enterprise Claims Batch</div>
                             </button>
                         </div>
 
                         <div id="client-detail-box" class="bg-slate-950/90 border border-slate-800 rounded-xl p-4 space-y-2">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-amber-400 text-base">Daimler Truck (Germany)</h3>
-                                <span class="text-xs font-mono text-slate-400">Automotive & Fleet IoT</span>
+                                <h3 class="font-bold text-amber-400 text-base">Daimler Truck Innovation Center (Germany)</h3>
+                                <span class="text-xs font-mono text-slate-400">Media Hub & RZS / Rapa</span>
                             </div>
                             <p class="text-xs text-slate-300 leading-relaxed">
-                                Designed and executed fault-tolerant Java Spring Boot batch & streaming pipelines to migrate <strong>50M+ vehicle, warranty, and telemetry records</strong> across legacy and cloud databases with automated reconciliation checks.
+                                Architected media management applications for truck/bus component images and extended core repair-time management systems. Successfully led the complex migration of over <strong>50 million records</strong> from legacy Mercedes-Benz environments to Daimler Truck databases while executing deep query optimization for Oracle DB.
                             </p>
                             <div class="flex flex-wrap gap-1.5 pt-1">
-                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Java 17</span>
-                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Spring Batch</span>
-                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Apache Kafka</span>
-                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">PostgreSQL</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Java</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Spring Boot</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">Oracle DB Optimization</span>
+                                <span class="px-2 py-0.5 bg-slate-800 rounded text-[11px] font-mono text-blue-300">50M+ Records</span>
                             </div>
                         </div>
                     </div>
@@ -557,15 +704,17 @@
             },
             {
                 act: "ACT IV / VI",
-                title: "GenAI & Agentic AI Engineering Lab",
+                portalName: "ACT IV",
+                portalSub: "GenAI Playbooks & Agentic Tooling",
+                title: "GenAI Playbooks & Autonomous Developer Tooling",
                 subtitle: "Devin AI, Multi-LLM Orchestration, Autonomous Sonar Remediation & Custom MCP",
-                dialogue: "Behold Biranchi's Agentic AI workshop! He built an autonomous Sonar agent achieving over 95% coverage, a Knowledge-Hub log debugger, an MCP bridge linking Confluence, Jira, and Playwright, plus Santander project skeleton plugins!",
+                dialogue: "Behold Biranchi's GenAI innovation lab! He built an autonomous Sonar agent achieving over 95% coverage, a Knowledge-Hub log debugger, an MCP bridge linking Confluence, Jira, and Playwright, plus Santander project skeleton plugins!",
                 render: () => `
                     <div class="space-y-4">
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
                             <div>
-                                <h2 class="font-cinzel text-xl md:text-2xl font-bold text-white">Agentic AI & DevEx Automation</h2>
-                                <p class="text-xs text-slate-400">Powered by Devin AI, GPT-4o, Claude 3.5 Sonnet, Opus & Argon</p>
+                                <h2 class="font-cinzel text-xl md:text-2xl font-bold text-white">GenAI & Autonomous DevEx Lab</h2>
+                                <p class="text-xs text-slate-400">Devin AI Engine • GPT-4o, Claude 3.5 Sonnet, Claude 3 Opus & Argon</p>
                             </div>
                             <button onclick="runSonarDemo()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition shadow">
                                 ▶ Simulate Sonar Agent
@@ -575,23 +724,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                             <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
                                 <div class="font-bold text-amber-400 mb-1">1. Autonomous Sonar Remediation Agent</div>
-                                <p class="text-slate-300">Connects Sonar agents with Maven/Gradle to auto-create Git branches, fix bugs/vulnerabilities, and achieve <strong>&gt;95% code coverage</strong>.</p>
+                                <p class="text-slate-300">Connects Sonar APIs with Maven/Gradle to auto-provision feature branches, fix vulnerabilities, and maintain <strong>&gt;95% unit test code coverage</strong>.</p>
                             </div>
                             <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
-                                <div class="font-bold text-blue-400 mb-1">2. Debug & Log Analysis Knowledge Hub</div>
-                                <p class="text-slate-300">Autonomous log triage engine backed by a structured Knowledge Hub containing historical developer remediation logic.</p>
+                                <div class="font-bold text-blue-400 mb-1">2. Intelligent Debugging & Log Analysis Agent</div>
+                                <p class="text-slate-300">Automated root-cause analysis agent powered by a centralized Knowledge Hub matching runtime exceptions against historical remediation logic.</p>
                             </div>
                             <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
-                                <div class="font-bold text-purple-400 mb-1">3. Custom MCP (Confluence + Jira + Playwright)</div>
-                                <p class="text-slate-300">Model Context Protocol server automating E2E customer journey tests and auto-creating detailed Jira tickets upon failure.</p>
+                                <div class="font-bold text-purple-400 mb-1">3. Model Context Protocol (MCP) Integration</div>
+                                <p class="text-slate-300">Custom MCP servers bridging Confluence, Jira, and Playwright to automate E2E customer journey tests and auto-generate detailed Jira tickets.</p>
                             </div>
                             <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-xl">
-                                <div class="font-bold text-emerald-400 mb-1">4. Santander Skeleton Scaffolding Plugins</div>
-                                <p class="text-slate-300">Custom generator plugins producing Santander-compliant project skeletons for <strong>Java, Spark, Mainframe & Python</strong>.</p>
+                                <div class="font-bold text-emerald-400 mb-1">4. Santander Framework Skeleton Plugins</div>
+                                <p class="text-slate-300">Enterprise scaffolding plugins generating standardized, compliance-ready starter skeletons for <strong>Java, Apache Spark, Mainframe & Python</strong>.</p>
                             </div>
                         </div>
 
-                        <!-- Live Terminal Output Box -->
                         <div id="ai-terminal" class="bg-black/90 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-400 h-24 overflow-y-auto">
                             <div>$ devin-agent --status ready --models "gpt-4o,claude-3.5-sonnet,opus,argon"</div>
                             <div class="text-slate-400">Click "Simulate Sonar Agent" above to watch autonomous branch &gt;95% coverage remediation...</div>
@@ -601,9 +749,11 @@
             },
             {
                 act: "ACT V / VI",
+                portalName: "ACT V",
+                portalSub: "Tech Stack & Certifications",
                 title: "Technical Arsenal, Certifications & Education",
-                subtitle: "Enterprise Java Ecosystem, Cloud Infrastructure & Accredited AI Credentials",
-                dialogue: "In Act Five, review Biranchi's core engineering stack alongside his certified training in AI Whitebelt, Cloud Development, GitHub Copilot, Agentic AI, and Prompt Engineering.",
+                subtitle: "Enterprise Java Ecosystem, Cloud Infrastructure & Accredited Credentials",
+                dialogue: "In Act Five, review Biranchi's core engineering stack alongside his certified training in AI Whitebelt, Cloud Development, GitHub Copilot, Agentic AI, and Enterprise Prompt Engineering.",
                 render: () => `
                     <div class="space-y-4">
                         <div class="border-b border-slate-800 pb-3">
@@ -616,17 +766,17 @@
                                 <div><strong class="text-slate-200">Languages & Core:</strong> <span class="text-slate-400">Java 17/21, Python, SQL, Apache Spark</span></div>
                                 <div><strong class="text-slate-200">Frameworks:</strong> <span class="text-slate-400">Spring Boot, Spring Batch, Spring Security, Hibernate</span></div>
                                 <div><strong class="text-slate-200">Streaming & DB:</strong> <span class="text-slate-400">Apache Kafka, PostgreSQL, Oracle, MongoDB, Redis</span></div>
-                                <div><strong class="text-slate-200">Cloud & DevOps:</strong> <span class="text-slate-400">AWS (EKS, ECS, Lambda, S3), Docker, Kubernetes, Maven, Gradle</span></div>
+                                <div><strong class="text-slate-200">Cloud & DevOps:</strong> <span class="text-slate-400">AWS (EKS, ECS, S3, Lambda), Docker, Kubernetes, Jenkins, Maven, Gradle</span></div>
                             </div>
 
                             <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-2.5">
-                                <h3 class="font-mono uppercase text-blue-400 font-semibold">AI & Cloud Certifications</h3>
+                                <h3 class="font-mono uppercase text-blue-400 font-semibold">Organizational Certifications</h3>
                                 <ul class="space-y-1.5 text-slate-300">
-                                    <li>✅ <strong>AI Whitebelt Certification</strong> (Enterprise AI Foundations)</li>
-                                    <li>✅ <strong>Agentic AI Architecture</strong> & Autonomous Workflows</li>
-                                    <li>✅ <strong>GitHub Copilot</strong> & AI-Assisted Engineering</li>
-                                    <li>✅ <strong>Enterprise Prompt Engineering</strong> & LLM Orchestration</li>
-                                    <li>✅ <strong>Cloud Development</strong> Certification</li>
+                                    <li>✅ <strong>AI Whitebelt Certification</strong></li>
+                                    <li>✅ <strong>Cloud Development Certification</strong></li>
+                                    <li>✅ <strong>GitHub Copilot Mastery</strong></li>
+                                    <li>✅ <strong>Agentic AI Engineering</strong></li>
+                                    <li>✅ <strong>Enterprise Prompt Engineering</strong> (Organizational Certified)</li>
                                 </ul>
                             </div>
                         </div>
@@ -634,11 +784,11 @@
                         <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                             <div>
                                 <div class="font-bold text-white">Master of Computer Applications (MCA)</div>
-                                <div class="text-slate-400">Odisha University of Technology and Research (OUTR / CET)</div>
+                                <div class="text-slate-400">Odisha University of Technology and Research (formerly CET), Bhubaneswar</div>
                             </div>
                             <div class="sm:text-right">
-                                <div class="font-bold text-white">B.Sc. (Honours) in Computer Science</div>
-                                <div class="text-slate-400">First Class Honours</div>
+                                <div class="font-bold text-white">Bachelor of Science (B.Sc. Hons)</div>
+                                <div class="text-slate-400">S.K.C.G. Autonomous College, Paralakhemundi</div>
                             </div>
                         </div>
                     </div>
@@ -646,14 +796,16 @@
             },
             {
                 act: "ACT VI / VI",
+                portalName: "ACT VI",
+                portalSub: "Finale & Contact",
                 title: "Finale: LinkedIn Bio & Executive PDF Resume",
                 subtitle: "Ready to share with recruiters, hiring directors, and your LinkedIn network",
-                dialogue: "Our presentation concludes! Copy the ready-made LinkedIn bio snippet below or open the Director's Cut Printable PDF Resume for immediate download. Thank you for watching!",
+                dialogue: "Our presentation concludes! Copy the ready-made LinkedIn bio snippet below or open the Printable PDF Resume for immediate download. Thank you for watching!",
                 render: () => `
                     <div class="space-y-5">
                         <div class="border-b border-slate-800 pb-3">
                             <h2 class="font-cinzel text-2xl font-bold text-white">Connect & Download Resume</h2>
-                            <p class="text-xs text-slate-400">Share this interactive portfolio in your LinkedIn bio or download the executive PDF</p>
+                            <p class="text-xs text-slate-400">Email: imbiranchi786@gmail.com • Phone: +91 8861003151 • Bengaluru, India</p>
                         </div>
 
                         <div class="bg-slate-950 border border-amber-500/30 rounded-xl p-4 space-y-3">
@@ -664,7 +816,7 @@
                                 </button>
                             </div>
                             <p id="linkedin-bio-text" class="text-xs text-slate-300 bg-slate-900 p-3 rounded-lg border border-slate-800 leading-relaxed">
-                                Senior Java Backend Engineer & Tech Lead (7+ Yrs) | Santander Bank UK | Microservices, Kafka, AWS & Agentic AI DevEx (Devin AI, MCP, Autonomous Sonar Remediation) | Explore my interactive portfolio & resume journey:
+                                Senior Java Backend Developer & Technical Lead (7+ Yrs) | Santander Bank UK | Microservices, Kafka, AWS & GenAI DevEx Automation (Devin AI, MCP, Autonomous Sonar Remediation) | Explore my interactive portfolio: https://imbiranchi786.github.io/Portfolio-/
                             </p>
                         </div>
 
@@ -683,40 +835,40 @@
 
         const clientDetails = [
             {
-                name: "Daimler Truck (Germany)",
-                domain: "Automotive & Fleet IoT",
-                desc: "Designed and executed fault-tolerant Java Spring Boot batch & streaming pipelines to migrate <strong>50M+ vehicle, warranty, and telemetry records</strong> across legacy and cloud databases with automated reconciliation checks.",
-                tags: ["Java 17", "Spring Batch", "Apache Kafka", "PostgreSQL"]
+                name: "Daimler Truck Innovation Center (Germany)",
+                domain: "Media Hub & RZS / Rapa",
+                desc: "Architected media management applications for truck/bus component images and extended core repair-time management systems. Successfully led the complex migration of over <strong>50 million records</strong> from legacy Mercedes-Benz environments to Daimler Truck databases while executing deep query optimization for Oracle DB.",
+                tags: ["Java", "Spring Boot", "Oracle DB Optimization", "50M+ Records"]
             },
             {
                 name: "BNSF Railway (USA)",
-                domain: "Rail Freight & Logistics",
-                desc: "Engineered real-time logistics microservices and telemetry ingestion APIs supporting mission-critical North American freight train scheduling and dispatch tracking.",
-                tags: ["Java", "Spring Boot", "REST APIs", "Oracle DB"]
+                domain: "Rail Device Modernization & GPS",
+                desc: "Migrated legacy monolithic systems for Coal Facility Profiles and Locomotive GPS Service into Spring Boot microservices. Built REST APIs, used Kafka for telemetry event streaming, integrated MongoDB and PostgreSQL, and managed containerized deployments on AWS ECS.",
+                tags: ["Spring Boot", "Apache Kafka", "MongoDB", "PostgreSQL", "AWS ECS"]
             },
             {
-                name: "HSBC — PayOS (UK / Hong Kong)",
-                domain: "Global Banking & Payments",
-                desc: "Developed high-availability payment orchestration microservices processing cross-border settlement workflows with strict idempotency and audit logging.",
-                tags: ["Java", "Microservices", "Kafka", "Docker"]
+                name: "HSBC (Hong Kong)",
+                domain: "PayOS — Payment Validation Gateway",
+                desc: "Engineered secure RESTful APIs using Spring Boot for payment validation and authorization. Integrated real-time fraud detection via Feign Client, secured API endpoints with JWT tokens, implemented Redis caching, and set up Prometheus & Grafana observability on AWS ECS Fargate.",
+                tags: ["Spring Boot", "JWT", "Redis", "AWS ECS Fargate", "Prometheus"]
             },
             {
-                name: "Mercedes-Benz (Germany)",
-                domain: "Connected Mobility Services",
-                desc: "Built scalable backend APIs powering connected vehicle parking and digital driver services across European markets.",
-                tags: ["Java", "Spring Cloud", "AWS", "REST"]
+                name: "Mercedes-Benz & DTICI (Germany)",
+                domain: "Smart Parking Management Solution",
+                desc: "Architected an IoT-integrated parking solution incorporating RFID and FASTag technologies. Built secure, low-latency REST APIs for real-time vehicle tracking and automated barrier control deployed on AWS EC2 and S3 infrastructure.",
+                tags: ["Java", "REST APIs", "IoT / RFID", "AWS EC2 & S3"]
             },
             {
                 name: "Network Rail (UK)",
-                domain: "National Rail Infrastructure",
-                desc: "Delivered backend data integration services for UK railway asset management and operational timetable analytics.",
-                tags: ["Java", "Spring Boot", "SQL", "CI/CD"]
+                domain: "Project Reporting Tool (PRT) & CSDT",
+                desc: "Engineered modular microservices for PMO project lifecycle management. Used Apache Kafka for real-time data synchronization across reporting modules and automated design request workflows from legacy manual processes to Spring Boot driven dashboards.",
+                tags: ["Spring Boot", "Apache Kafka", "Microservices", "Workflow Automation"]
             },
             {
-                name: "The Hartford & Bell Canada",
-                domain: "Insurance & Telecommunications",
-                desc: "Built policy administration microservices for The Hartford (USA) and high-volume customer billing APIs for Bell Canada.",
-                tags: ["Java", "Hibernate", "SOAP/REST", "Linux"]
+                name: "The Hartford (USA)",
+                domain: "Enterprise Claim Processing System",
+                desc: "Implemented robust automated data validation rules that reduced claim processing errors by 30%. Utilized Spring Batch for high-volume bulk claims processing and optimized transactional SQL queries for enterprise databases.",
+                tags: ["Java", "Spring Batch", "SQL Optimization", "30% Error Reduction"]
             }
         ];
 
@@ -724,27 +876,49 @@
         let isPlaying = false;
         let autoPlayTimer = null;
         let typewriterTimer = null;
-        let voiceEnabled = false;
+        let voiceEnabled = true;
+        let voicesLoaded = [];
         let savedPhotoData = localStorage.getItem('biranchi_photo') || null;
 
-        // Initialize Stage
-        window.addEventListener('DOMContentLoaded', () => {
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                voicesLoaded = window.speechSynthesis.getVoices();
+            }
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // Start Show Button on Welcome Gate (Guarantees Browser Audio & Speech Unlock)
+        function startShow(withVoice) {
+            const gate = document.getElementById('welcome-gate');
+            if (gate) gate.style.display = 'none';
+
+            voiceEnabled = withVoice;
+            updateVoiceButtonUI();
+            playPortalChime();
+
+            const portal = document.getElementById('portal-overlay');
+            portal.classList.add('active');
             setTimeout(() => {
-                document.getElementById('curtain-overlay').classList.remove('curtains-closed');
-                renderScene(0, false);
-            }, 450);
-        });
+                portal.classList.remove('active');
+                renderScene(0, withVoice);
+            }, 550);
+        }
 
         function goToScene(index) {
             if (index === currentScene) return;
-            const curtains = document.getElementById('curtain-overlay');
-            curtains.classList.add('curtains-closed');
-            playCurtainChime();
+            const portal = document.getElementById('portal-overlay');
+            document.getElementById('portal-act-label').textContent = scenes[index].portalName;
+            document.getElementById('portal-act-sub').textContent = scenes[index].portalSub;
+            portal.classList.add('active');
+            playPortalChime();
 
             setTimeout(() => {
                 renderScene(index, true);
-                curtains.classList.remove('curtains-closed');
-            }, 650);
+                portal.classList.remove('active');
+            }, 520);
         }
 
         function nextScene() {
@@ -764,11 +938,10 @@
 
             const stage = document.getElementById('stage-content');
             stage.classList.remove('scene-fade');
-            void stage.offsetWidth; // trigger reflow
+            void stage.offsetWidth;
             stage.classList.add('scene-fade');
             stage.innerHTML = scene.render();
 
-            // Update Tabs
             document.querySelectorAll('.scene-tab').forEach((tab, idx) => {
                 if (idx === index) {
                     tab.classList.add('bg-amber-500/15', 'border-amber-500/40');
@@ -779,6 +952,47 @@
 
             applySavedPhoto();
             typeDialogue(scene.dialogue, speak);
+        }
+
+        function speakText(text) {
+            if (!voiceEnabled || !('speechSynthesis' in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+
+                const utter = new SpeechSynthesisUtterance(text);
+                if (voicesLoaded.length === 0) {
+                    voicesLoaded = window.speechSynthesis.getVoices();
+                }
+                const preferredVoice = voicesLoaded.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('UK') || v.name.includes('Natural'))) 
+                                    || voicesLoaded.find(v => v.lang.startsWith('en'));
+                if (preferredVoice) {
+                    utter.voice = preferredVoice;
+                }
+                utter.rate = 1.04;
+                utter.pitch = 1.15;
+
+                const avatarEl = document.getElementById('elf-avatar');
+                const waveEl = document.getElementById('speaking-wave');
+
+                utter.onstart = () => {
+                    avatarEl.classList.add('talking');
+                    if (waveEl) waveEl.classList.remove('hidden');
+                };
+                utter.onend = () => {
+                    avatarEl.classList.remove('talking');
+                    if (waveEl) waveEl.classList.add('hidden');
+                };
+                utter.onerror = () => {
+                    avatarEl.classList.remove('talking');
+                    if (waveEl) waveEl.classList.add('hidden');
+                };
+
+                window._currentUtterance = utter;
+                window.speechSynthesis.speak(utter);
+            } catch (e) {}
         }
 
         function typeDialogue(text, speak) {
@@ -795,20 +1009,22 @@
                     i++;
                 } else {
                     clearInterval(typewriterTimer);
-                    avatarEl.classList.remove('talking');
+                    if (!window.speechSynthesis || !window.speechSynthesis.speaking) {
+                        avatarEl.classList.remove('talking');
+                    }
                 }
             }, 22);
 
-            if (voiceEnabled && speak && 'speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utter = new SpeechSynthesisUtterance(text);
-                utter.rate = 1.05;
-                utter.pitch = 1.15;
-                window.speechSynthesis.speak(utter);
+            if (speak && voiceEnabled) {
+                speakText(text);
             }
         }
 
         function replayDialogue() {
+            if (!voiceEnabled) {
+                voiceEnabled = true;
+                updateVoiceButtonUI();
+            }
             typeDialogue(scenes[currentScene].dialogue, true);
         }
 
@@ -821,7 +1037,7 @@
                 label.textContent = 'Playing';
                 autoPlayTimer = setInterval(() => {
                     nextScene();
-                }, 8500);
+                }, 9500);
             } else {
                 icon.textContent = '▶';
                 label.textContent = 'Auto-Play';
@@ -829,18 +1045,36 @@
             }
         }
 
-        function toggleVoice() {
-            voiceEnabled = !voiceEnabled;
+        function updateVoiceButtonUI() {
+            const icon = document.getElementById('voice-icon');
+            const label = document.getElementById('voice-label');
             const btn = document.getElementById('btn-voice');
-            btn.textContent = voiceEnabled ? '🔊' : '🔇';
-            if (!voiceEnabled && 'speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            } else if (voiceEnabled) {
-                replayDialogue();
+            if (voiceEnabled) {
+                icon.textContent = '🔊';
+                label.textContent = 'Voice On';
+                btn.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 text-xs font-semibold transition";
+            } else {
+                icon.textContent = '🔇';
+                label.textContent = 'Muted';
+                btn.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-semibold transition";
             }
         }
 
-        // Client Inspector in Act III
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            updateVoiceButtonUI();
+            if (voiceEnabled) {
+                speakText(scenes[currentScene].dialogue);
+            } else {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+                document.getElementById('elf-avatar').classList.remove('talking');
+                const waveEl = document.getElementById('speaking-wave');
+                if (waveEl) waveEl.classList.add('hidden');
+            }
+        }
+
         function selectClient(idx) {
             const c = clientDetails[idx];
             document.querySelectorAll('.client-btn').forEach((btn, i) => {
@@ -862,14 +1096,13 @@
             `;
         }
 
-        // Autonomous Sonar Agent Simulation in Act IV
         function runSonarDemo() {
             const term = document.getElementById('ai-terminal');
             if (!term) return;
             const logs = [
                 "$ sonar-agent scan --project santander-consumer-merge",
                 "[INFO] Detected 4 cognitive complexity issues & 84.2% line coverage.",
-                "[AGENT] Creating branch: fix/sonar-autonomous-remediation-104...",
+                "[AGENT] Provisioning branch: fix/sonar-autonomous-remediation-104...",
                 "[LLM: Claude 3.5 Sonnet + Devin] Generating JUnit 5 & Mockito test suites...",
                 "[MAVEN] Running mvn clean verify jacoco:report...",
                 "[SUCCESS] Build Passed! New Code Coverage: 96.4% (>95% threshold met). PR Ready."
@@ -886,7 +1119,6 @@
             });
         }
 
-        // Photo Upload & Persistence
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -912,7 +1144,6 @@
             }
         }
 
-        // Copy LinkedIn Bio
         function copyLinkedInBio() {
             const text = document.getElementById('linkedin-bio-text').textContent.trim();
             navigator.clipboard.writeText(text).then(() => {
@@ -922,7 +1153,6 @@
             });
         }
 
-        // Resume Modal
         function openResumeModal() {
             applySavedPhoto();
             document.getElementById('resume-modal').classList.remove('hidden');
@@ -931,15 +1161,14 @@
             document.getElementById('resume-modal').classList.add('hidden');
         }
 
-        // Subtle Web Audio API Chime
-        function playCurtainChime() {
+        function playPortalChime() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-                osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.25); // E5
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.28);
                 gain.gain.setValueAtTime(0.04, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
                 osc.connect(gain);
@@ -949,7 +1178,6 @@
             } catch (e) {}
         }
 
-        // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') nextScene();
             if (e.key === 'ArrowLeft') prevScene();
